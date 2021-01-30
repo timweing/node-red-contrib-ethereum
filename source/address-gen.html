@@ -1,0 +1,56 @@
+<script type="text/javascript">
+    RED.nodes.registerType("address-gen", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "Address Gen",
+        label: function() { return this.name || "Address Gen"; },
+        outputLabels: "address"
+    });
+</script>
+
+<script type="text/html" data-template-name="address-gen">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="address-gen">
+    <p>Generates a random ethereum address.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <p>The input message only triggers the node, no input properties are expected.</p>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string</span></dt>
+        <dd>a 20 bytes ethereum address.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        This is just a helper node for cases in which an ethereum address string is needed.
+        The node will not produce a private key for the address,
+        therefore it can't be used as a dynamically generated ethereum account.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

@@ -1,0 +1,98 @@
+<script type="text/javascript">
+    RED.nodes.registerType("erc20-listener", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            smartContract: { value: "", required: true, type: "smart-contract" },
+            contractEvent: { value: "Transfer", required: true },
+            filterFrom: { value: undefined, required: false },
+            filterTo: { value: undefined, required: false }
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "ERC20 Listener",
+        label: function() { return this.name || "ERC20 Listener"; },
+        outputLabels: "event"
+    });
+</script>
+
+<script type="text/html" data-template-name="erc20-listener">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-smartContract"><i class="fa fa-file-code-o"></i> Contract</label>
+        <input type="text" id="node-input-smartContract" placeholder="Smart Contract">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractEvent"><i class="fa fa-bolt"></i> Event</label>
+        <select id="node-input-contractEvent" style="width: 70%">
+            <option value="Transfer">Transfer</option>
+            <option value="Approval">Approval</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-filterFrom"><i class="fa fa-filter"></i> Filter From</label>
+        <input type="text" id="node-input-filterFrom" placeholder="0x89a47029...">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filterTo"><i class="fa fa-filter"></i> Filter To</label>
+        <input type="text" id="node-input-filterTo" placeholder="0x037bB27...">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="erc20-listener">
+    <p>Listens for an ERC20 token event.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Contract <span class="property-type">smart-contract</span></dt>
+        <dd>the ERC20 token contract on which to subscribe to an event.</dd>
+        <dt>Event <span class="property-type">string</span></dt>
+        <dd>the ERC20 event to subscribe.</dd>
+        <dt class="optional">Filter From<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the received events by token owner account.</dd>
+        <dt class="optional">Filter To<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the received events by recipient account.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">object</span></dt>
+        <dd>the event data.</dd>
+        <dt>summary <span class="property-type">object</span></dt>
+        <dd>a summary of all available data regarding the event subscription.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        This node shares most of its functionality with the <code>event-listener</code> node, with some differences
+        in the configuration. This help text only documents the specific differences. For everything else refer to the
+        <code>event-listener</code> help.
+    </p>
+    <p>
+        The ERC20 token interface defines two events that have almost the same structure. Both the 'Transfer' and the
+        'Approval' event contain an indexed event property for the token owner account and for the recipient account.
+        The <code>From</code> filter is used to filter by token owner account and the <code>To</code> filter to filter
+        by recipient account. Both filters are simply account addresses. To filter by multiple addresses enter them into
+        the filter input field separated by a comma.
+    </p>
+    <p>The node output port behaves the same way as for the <code>event-listener</code> node.</p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://docs.openzeppelin.com/contracts/2.x/api/token/erc20#IERC20">IERC20</a>
+            - the ERC20 interface description.
+        </li>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

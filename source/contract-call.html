@@ -1,0 +1,303 @@
+<script type="text/javascript">
+    RED.nodes.registerType("contract-call", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            smartContract: { value: "", required: true, type: "smart-contract" },
+            contractFunction: { value: undefined, required: true },
+            readonlyFunction: { value: false, required: true },
+            senderAccount: { value: "", validate: value => true, type: "sender-account" },
+            onlyEstimateGas: { value: false, required: true },
+            useEstimatedGasLimit: { value: true, required: true },
+            gasLimit: { value: undefined, validate: value => true },
+            usePreviousBlocksGasPrice: { value: true, required: true },
+            gasPrice: { value: undefined, validate: value => true },
+            ethereumClient: { value: "", validate: validateEthereumClient, type: "ethereum-client" }
+        },
+        inputs: 1,
+        outputs: 2,
+        icon: "ethereum.png",
+        paletteLabel: "Contract Call",
+        label: function() { return this.name || "Contract Call"; },
+        inputLabels: "function args",
+        outputLabels: ["transaction hash", "result"],
+        oneditprepare: prepareEditDialog
+    });
+
+    function validateEthereumClient(value) {
+        const inputReadonlyFunction = $("#node-input-readonlyFunction");
+        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
+        const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
+        if (inputReadonlyFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUsePreviousBlocksGasPrice.length > 0) {
+            // Validation when edit window open.
+            return inputReadonlyFunction.is(":checked") ||
+                inputOnlyEstimateGas.is(":checked") ||
+                !inputUsePreviousBlocksGasPrice.is(":checked") ||
+                value.length > 0;
+        }
+        else {
+            // Validation when edit window not open.
+            return this.readonlyFunction ||
+                this.onlyEstimateGas ||
+                !this.usePreviousBlocksGasPrice ||
+                value.length > 0;
+        }
+    }
+
+    function prepareEditDialog() {
+        prepareTransactionRows();
+        prepareGasRows();
+        prepareGasLimitRow();
+        prepareGasPriceRow();
+
+        function prepareTransactionRows() {
+            const inputReadonlyFunction = $("#node-input-readonlyFunction");
+            const divTransactionRows = $("#transaction-rows");
+            updateTransactionRowsVisibility();
+            inputReadonlyFunction.on("click", () => {
+                updateTransactionRowsVisibility();
+            });
+
+            function updateTransactionRowsVisibility() {
+                if (inputReadonlyFunction.is(":checked")) {
+                    divTransactionRows.hide();
+                } else {
+                    divTransactionRows.show();
+                }
+            }
+        }
+
+        function prepareGasRows() {
+            const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
+            const divGasRows = $("#gas-rows");
+            updateGasRowsVisibility();
+            inputOnlyEstimateGas.on("click", () => {
+                updateGasRowsVisibility();
+            });
+
+            function updateGasRowsVisibility() {
+                if (inputOnlyEstimateGas.is(":checked")) {
+                    divGasRows.hide();
+                } else {
+                    divGasRows.show();
+                }
+            }
+        }
+
+        function prepareGasLimitRow() {
+            const inputUseEstimatedGasLimit = $("#node-input-useEstimatedGasLimit");
+            const divGasLimitRow = $("#gasLimit-row");
+            updateGasLimitRowVisibility();
+            inputUseEstimatedGasLimit.on("click", () => {
+                updateGasLimitRowVisibility();
+            });
+
+            function updateGasLimitRowVisibility() {
+                if (inputUseEstimatedGasLimit.is(":checked")) {
+                    divGasLimitRow.hide();
+                } else {
+                    divGasLimitRow.show();
+                }
+            }
+        }
+
+        function prepareGasPriceRow() {
+            const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
+            const divGasPriceRow = $("#gasPrice-row");
+            const divEthereumClientRow = $("#ethereumClient-row");
+            updateGasPriceRowVisibility();
+            inputUsePreviousBlocksGasPrice.on("click", () => {
+                updateGasPriceRowVisibility();
+            });
+
+            function updateGasPriceRowVisibility() {
+                if (inputUsePreviousBlocksGasPrice.is(":checked")) {
+                    divGasPriceRow.hide();
+                    divEthereumClientRow.show();
+                } else {
+                    divGasPriceRow.show();
+                    divEthereumClientRow.hide();
+                }
+            }
+        }
+    }
+</script>
+
+<script type="text/html" data-template-name="contract-call">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-smartContract"><i class="fa fa-file-code-o"></i> Contract</label>
+        <input type="text" id="node-input-smartContract" placeholder="Smart Contract">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractFunction"><i class="fa fa-code"></i> Function</label>
+        <input type="text" id="node-input-contractFunction" placeholder="Contract Function">
+    </div>
+    <div class="form-row">
+        <label for="node-input-readonlyFunction"><i class="fa fa-eye"></i> Read-only</label>
+        <input type="checkbox" style="width: auto;" id="node-input-readonlyFunction"> <span class="checkbox-info">function is marked 'view', 'pure' or 'constant'</span>
+    </div>
+    <div id="transaction-rows">
+        <div class="form-row">
+            <label for="node-input-senderAccount"><i class="fa fa-user-circle-o"></i> Sender</label>
+            <input type="text" id="node-input-senderAccount" placeholder="Sender Account">
+            <div class="input-info">for dynamic config select none and set msg.senderAccount</div>
+        </div>
+        <div class="form-row">
+            <label for="node-input-onlyEstimateGas"><i class="fa fa-tint"></i> Gas</label>
+            <input type="checkbox" id="node-input-onlyEstimateGas" style="width: auto;"> <span class="checkbox-info">only estimate gas but don't execute transaction</span>
+        </div>
+        <div id="gas-rows">
+            <div class="form-row">
+                <label for="node-input-useEstimatedGasLimit"><i class="fa fa-tint"></i> Gas Limit</label>
+                <input type="checkbox" id="node-input-useEstimatedGasLimit" style="width: auto;"> <span class="checkbox-info">use estimation</span>
+            </div>
+            <div id="gasLimit-row" class="form-row">
+                <label for="node-input-gasLimit"></label>
+                <input type="text" id="node-input-gasLimit" placeholder="Gas Limit">
+                <div class="input-info">for dynamic config leave empty and set msg.gasLimit</div>
+            </div>
+            <div class="form-row">
+                <label for="node-input-usePreviousBlocksGasPrice"><i class="fa fa-tint"></i> Gas Price</label>
+                <input type="checkbox" id="node-input-usePreviousBlocksGasPrice" style="width: auto;"> <span class="checkbox-info">use last few blocks median gas price</span>
+            </div>
+            <div id="gasPrice-row" class="form-row">
+                <label for="node-input-gasPrice"></label>
+                <input type="text" id="node-input-gasPrice" placeholder="Gas Price"> <span class="text-info">Wei</span>
+                <div class="input-info">for dynamic config leave empty and set msg.gasPrice</div>
+            </div>
+            <div id="ethereumClient-row" class="form-row">
+                <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+                <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="contract-call">
+    <p>Calls a smart contract function.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Contract <span class="property-type">smart-contract</span></dt>
+        <dd>the smart contract on which to call a function.</dd>
+        <dt>Function <span class="property-type">string</span></dt>
+        <dd>the name of the smart contract function to call.</dd>
+        <dt>Read-only <span class="property-type">boolean</span></dt>
+        <dd>indicates whether the function is read-only or state changing.</dd>
+        <dt>Sender <span class="property-type">sender-account</span></dt>
+        <dd>the ethereum account to send the transaction from.</dd>
+        <dt>Gas <span class="property-type">boolean</span></dt>
+        <dd>indicates whether to execute the function call or only to estimate it's gas cost.</dd>
+        <dt>Gas Limit <span class="property-type">string</span></dt>
+        <dd>the maximum amount of gas willing to pay for the function call.</dd>
+        <dt>Gas Price <span class="property-type">string</span></dt>
+        <dd>the amount of wei willing to pay per unit of gas.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client to query the gas price from.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">(primitive | object) | array</span></dt>
+        <dd>the argument(s) of the function call.</dd>
+        <dt class="optional">senderAccount <span class="property-type">string</span></dt>
+        <dd>(optional) the name of the ethereum account to send the transaction from.</dd>
+        <dt class="optional">gasLimit <span class="property-type">string | number</span></dt>
+        <dd>(optional) the maximum amount of gas willing to pay for the function call.</dd>
+        <dt class="optional">gasPrice <span class="property-type">string | number</span></dt>
+        <dd>(optional) the amount of wei willing to pay per unit of gas.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Transaction Hash
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">string</span></dt>
+                <dd>the transaction hash, if the function call requires a transaction.</dd>
+                <dt>summary <span class="property-type">object</span></dt>
+                <dd>a summary of all available data regarding the function call.</dd>
+            </dl>
+        </li>
+        <li>Result
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">(primitive | object) | object | number</span></dt>
+                <dd>the function's return value, the transaction receipt or the estimated gas cost.</dd>
+                <dt>summary <span class="property-type">object</span></dt>
+                <dd>a summary of all available data regarding the function call.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        The node has three possible modes that define its behavior and outputs.
+    </p>
+    <p>
+        In mode 1 the node calls a read-only smart contract function. A read-only function does not alter the state on
+        the blockchain, it only reads data from the smart contract storage, therefore it does not require to send a
+        transaction. In solidity such functions are marked with the keywords 'view', 'pure' or 'constant'.
+        Mode 1 is selected by checking the <code>Readonly</code> checkbox. Since there is not transaction, the
+        transaction hash output port is not triggered. The result output port emits a message containing the return
+        value of the function in the <code>msg.payload</code>. Depending on the function interface, this can be a
+        primitive value or an object.
+    </p>
+    <p>
+        Mode 2 calls a smart contract function that changes the state on the blockchain. These function calls require
+        to send a transaction from an ethereum account and cost a certain amount of gas. Mode 2 is selected by leaving
+        the <code>Readonly</code> and <code>Gas</code> checkboxes unchecked. Because a transaction is sent, a
+        <code>Sender</code> account must be chosen, which will pay the gas cost. This mode also allows to set the
+        <code>Gas Limit</code> and the <code>Gas Price</code> for the transaction. The <code>Gas Limit</code> can be
+        set manually or an estimate can be used, by checking the <code>Gas Limit</code> checkbox. The
+        <code>Gas Price</code> can also be set manually or the median gas price from the last few blocks can be used,
+        by checking the <code>Gas Price</code> checkbox and selecting an ethereum <code>Client</code>. Mode 2 will
+        trigger a message on the transaction hash output port, after the transaction has been sent, containing the
+        transaction hash in the <code>msg.payload</code>. As soon as the transaction has been mined, the result output
+        port emits a message containing the full transaction receipt in the <code>msg.payload</code>. Return values of
+        the function are not available from outside the blockchain, but if the function emits an event the event data
+        is available as part of the receipt.
+    </p>
+    <p>
+        Mode 3 is not actually executing the function call but only estimating its gas cost. It is selected by checking
+        the <code>Gas</code> checkbox. Even though no transaction is sent, a <code>Sender</code> account must be chosen.
+        Depending on the smart contract function, it might have an effect on the gas cost estimate. The transaction hash
+        output port is not triggered. The result output port emits a message containing the estimated amount of gas for
+        the function call in the <code>msg.payload</code>.
+    </p>
+    <p>
+        The arguments for the smart contract function are passed in the <code>msg.payload</code>. If the function does
+        not expect any arguments, the <code>msg.payload</code> is ignored. For functions that have just one argument,
+        the value or object in <code>msg.payload</code> is used. For functions that have multiple arguments, the
+        <code>msg.payload</code> must be an array containing those arguments.
+    </p>
+    <p>
+        Some node properties can be set dynamically using the optional input message properties. To select the
+        <code>Sender</code> account dynamically, don't select any account from the dropdown list (leave it at 'Add new
+        sender-account...') and set the <code>Name</code> of the sender-account in the <code>msg.senderAccount</code>.
+        To dynamically set the <code>Gas Limit</code> or the <code>Gas Price</code> property, leave the input field
+        empty and set the <code>msg.gasLimit</code> or <code>msg.gasPrice</code> respectively.
+    </p>
+    <p>
+        The <code>msg.summary</code> on the output message contains: the function name, the used arguments, the used
+        options (sender, gas limit, gas price etc.) depending on the mode, the transaction hash if available,
+        the result depending on the mode.
+    </p>
+    <p>
+        The node currently does not support 'payable' functions that require the transaction to transfer ether to
+        the smart contract address.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

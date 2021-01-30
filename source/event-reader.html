@@ -1,0 +1,135 @@
+<script type="text/javascript">
+    RED.nodes.registerType("event-reader", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            smartContract: { value: "", required: true, type: "smart-contract" },
+            contractEvent: { value: undefined, required: true },
+            ethereumClient: { value: "", required: true, type: "ethereum-client" },
+            fromBlock: { value: "0", required: false },
+            toBlock: { value: "latest", required: false },
+            filter: { value: undefined, required: false }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "Event Reader",
+        label: function() { return this.name || "Event Reader"; },
+        outputLabels: "events"
+    });
+</script>
+
+<script type="text/html" data-template-name="event-reader">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-smartContract"><i class="fa fa-file-code-o"></i> Contract</label>
+        <input type="text" id="node-input-smartContract" placeholder="Smart Contract">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractEvent"><i class="fa fa-bolt"></i> Event</label>
+        <input type="text" id="node-input-contractEvent" placeholder="Contract Event">
+    </div>
+    <div class="form-row">
+        <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+        <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
+    </div>
+    <div class="form-row">
+        <label for="node-input-fromBlock"><i class="fa fa-play"></i> From Block</label>
+        <input type="text" id="node-input-fromBlock" placeholder="0">
+        <div class="input-info">for dynamic config leave empty and set msg.fromBlock</div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-toBlock"><i class="fa fa-stop"></i> To Block</label>
+        <input type="text" id="node-input-toBlock" placeholder="latest">
+        <div class="input-info">for dynamic config leave empty and set msg.toBlock</div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="fa fa-filter"></i> Filter</label>
+        <input type="text" id="node-input-filter" placeholder="{'myIndexedParam': '0x89a47029...'}">
+        <div class="input-info">for dynamic config leave empty and set msg.filter</div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="event-reader">
+    <p>Queries past smart contract events.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Contract <span class="property-type">smart-contract</span></dt>
+        <dd>the smart contract on which to query past events.</dd>
+        <dt>Event <span class="property-type">string</span></dt>
+        <dd>the name of the smart contract event to query.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client to query the latest block number on.</dd>
+        <dt class="optional">From Block <span class="property-type">string</span></dt>
+        <dd>(optional) the lower limit of the block number filter.</dd>
+        <dt class="optional">To Block <span class="property-type">string</span></dt>
+        <dd>(optional) the upper limit of the block number filter.</dd>
+        <dt class="optional">Filter <span class="property-type">JSON-string</span></dt>
+        <dd>(optional) to filter the past events.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">fromBlock <span class="property-type">number | string</span></dt>
+        <dd>(optional) the lower limit of the block number filter.</dd>
+        <dt class="optional">toBlock <span class="property-type">number | string</span></dt>
+        <dd>(optional) the upper limit of the block number filter.</dd>
+        <dt class="optional">filter <span class="property-type">object</span></dt>
+        <dd>(optional) to filter the past events.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">array</span></dt>
+        <dd>the data of all the found events.</dd>
+        <dt>summary <span class="property-type">object</span></dt>
+        <dd>a summary of all available data regarding the past events query.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        To query the past events of a smart contract this node must be triggered by an input message.
+    </p>
+    <p>
+        The <code>Filter</code> property works the same way as for the <code>event-listener</code> node, refer to the
+        documentation there. The limitation to 'indexed' event properties also applies here. But querying past events
+        is also possible over an http connection to the ethereum client, websocket is not required.
+    </p>
+    <p>
+        This node additionally allows to filter by blocks in which the events occurred. A lower and an upper limit
+        block number can be defined to set a block range from which the events will be queried. The limits may be fix
+        block numbers or variables. The possible variables are: 'latest' for the number of the latest mined block,
+        'earliest' for the genesis block or 'pending' for the number of the currently mined block, which includes
+        events from pending transactions. It is also possible to set a negative number as the lower limit, which will
+        form the block range by subtracting this number from the upper limit. E.g. setting <code>From Block</code> to
+        -6 and <code>To Block</code> to 10 will result in a range from block 4 to 10, or setting <code>From Block</code>
+        to -2 and <code>To Block</code> to 'latest' will give the range that includes the three latest blocks. The
+        default is to query all blocks from the genesis block to the latest mined block (not including pending
+        transactions).
+    </p>
+    <p>
+        The three filter properties <code>From Block</code>, <code>To Block</code> and <code>Filter</code> can, if left
+        empty in the node configuration, be set dynamically using the optional input message properties
+        <code>msg.fromBlock</code>, <code>msg.toBlock</code> and <code>msg.filter</code>. Note that
+        <code>msg.filter</code> must contain a filter object, not a JSON-string.
+    </p>
+    <p>
+        The <code>msg.summary</code> on the output message contains: the event name, the used options (filter,
+        fromBlock, toBlock), the array of event data.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

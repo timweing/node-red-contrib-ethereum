@@ -1,0 +1,62 @@
+<script type="text/javascript">
+    RED.nodes.registerType("smart-contract",{
+        category: "config",
+        defaults: {
+            name: { value: undefined, required: true },
+            ethereumClient: { value: "", required: true, type: "ethereum-client" },
+            address: { value: undefined, required: true },
+            abi: { value: undefined, required: true }
+        },
+        label: function() { return this.name || "Smart Contract"; }
+    });
+</script>
+
+<script type="text/html" data-template-name="smart-contract">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+        <input type="text" id="node-config-input-ethereumClient" placeholder="Ethereum Client">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-address"><i class="fa fa-map-marker"></i> Address</label>
+        <input type="text" id="node-config-input-address" placeholder="0x89a47029...">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-abi"><i class="fa fa-file-code-o"></i> ABI</label>
+        <input type="text" id="node-config-input-abi" placeholder="ABI">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="smart-contract">
+    <p>Holds a smart contract interface.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>Name <span class="property-type">string</span></dt>
+        <dd>a name for the smart contract configuration.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client connection to interact with the smart contract.</dd>
+        <dt>Address <span class="property-type">string</span></dt>
+        <dd>the ethereum address of the smart contract.</dd>
+        <dt>ABI <span class="property-type">JSON-string</span></dt>
+        <dd>the smart contract JSON interface.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        This configuration node holds a global reference to a smart contract interface, that can be selected in other
+        node configurations. At flow startup, the node validates whether the provided address is a contract account and
+        throws an error if not. All smart contract interactions are done over the selected <code>Client</code> connection.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

@@ -1,0 +1,134 @@
+<script type="text/javascript">
+    RED.nodes.registerType("erc20-reader", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            smartContract: { value: "", required: true, type: "smart-contract" },
+            contractEvent: { value: "Transfer", required: true },
+            ethereumClient: { value: "", required: true, type: "ethereum-client" },
+            fromBlock: { value: "0", required: false },
+            toBlock: { value: "latest", required: false },
+            filterFrom: { value: undefined, required: false },
+            filterTo: { value: undefined, required: false }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "ERC20 Reader",
+        label: function() { return this.name || "ERC20 Reader"; },
+        outputLabels: "events"
+    });
+</script>
+
+<script type="text/html" data-template-name="erc20-reader">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-smartContract"><i class="fa fa-file-code-o"></i> Contract</label>
+        <input type="text" id="node-input-smartContract" placeholder="Smart Contract">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractEvent"><i class="fa fa-bolt"></i> Event</label>
+        <select id="node-input-contractEvent" style="width: 70%">
+            <option value="Transfer">Transfer</option>
+            <option value="Approval">Approval</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+        <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
+    </div>
+    <div class="form-row">
+        <label for="node-input-fromBlock"><i class="fa fa-play"></i> From Block</label>
+        <input type="text" id="node-input-fromBlock" placeholder="0">
+        <div class="input-info">for dynamic config leave empty and set msg.fromBlock</div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-toBlock"><i class="fa fa-stop"></i> To Block</label>
+        <input type="text" id="node-input-toBlock" placeholder="latest">
+        <div class="input-info">for dynamic config leave empty and set msg.toBlock</div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-filterFrom"><i class="fa fa-filter"></i> Filter From</label>
+        <input type="text" id="node-input-filterFrom" placeholder="0x89a47029...">
+        <div class="input-info">for dynamic config leave empty and set msg.filterFrom</div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-filterTo"><i class="fa fa-filter"></i> Filter To</label>
+        <input type="text" id="node-input-filterTo" placeholder="0x037bB27...">
+        <div class="input-info">for dynamic config leave empty and set msg.filterTo</div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="erc20-reader">
+    <p>Queries past ERC20 token events.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Contract <span class="property-type">smart-contract</span></dt>
+        <dd>the ERC20 token contract on which to query past events.</dd>
+        <dt>Event <span class="property-type">string</span></dt>
+        <dd>the ERC20 event to query.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client to query the latest block number on.</dd>
+        <dt class="optional">From Block <span class="property-type">string</span></dt>
+        <dd>(optional) the lower limit of the block number filter.</dd>
+        <dt class="optional">To Block <span class="property-type">string</span></dt>
+        <dd>(optional) the upper limit of the block number filter.</dd>
+        <dt class="optional">Filter From<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the past events by token owner account.</dd>
+        <dt class="optional">Filter To<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the past events by recipient account.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">fromBlock <span class="property-type">number | string</span></dt>
+        <dd>(optional) the lower limit of the block number filter.</dd>
+        <dt class="optional">toBlock <span class="property-type">number | string</span></dt>
+        <dd>(optional) the upper limit of the block number filter.</dd>
+        <dt class="optional">filterFrom<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the past events by token owner account.</dd>
+        <dt class="optional">filterTo<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the past events by recipient account.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">array</span></dt>
+        <dd>the data of all the found events.</dd>
+        <dt>summary <span class="property-type">object</span></dt>
+        <dd>a summary of all available data regarding the past events query.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        This node shares most of its functionality with the <code>event-reader</code> node, with some differences
+        in the configuration and the input. This help text only documents the specific differences. For everything else
+        refer to the <code>event-reader</code> help.
+    </p>
+    <p>
+        The <code>Filter From</code> and <code>Filter To</code> properties works the same way as for the
+        <code>erc20-listener</code> node, refer to the documentation there. It is possible though to set those filters
+        dynamically by leaving the input fields blank and set the input message properties <code>msg.filterFrom</code>
+        and <code>msg.filterTo</code>.
+    </p>
+    <p>The node output port behaves the same way as for the <code>event-reader</code> node.</p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://docs.openzeppelin.com/contracts/2.x/api/token/erc20#IERC20">IERC20</a>
+            - the ERC20 interface description.
+        </li>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

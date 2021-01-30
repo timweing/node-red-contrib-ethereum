@@ -1,0 +1,423 @@
+<script type="text/javascript">
+    const allInputs = ["fromAddress", "toAddress", "tokenAmount"];
+    const functionProperties = {
+        totalSupply: { isReadonly: true, requiredInputs: [] },
+        balanceOf: { isReadonly: true, requiredInputs: ["fromAddress"] },
+        transfer: { isReadonly: false, requiredInputs: ["toAddress", "tokenAmount"] },
+        allowance: { isReadonly: true, requiredInputs: ["fromAddress", "toAddress"] },
+        approve: { isReadonly: false, requiredInputs: ["toAddress", "tokenAmount"] },
+        transferFrom: { isReadonly: false, requiredInputs: ["fromAddress", "toAddress", "tokenAmount"] }
+    };
+
+    RED.nodes.registerType("erc20-call", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            smartContract: { value: "", required: true, type: "smart-contract" },
+            contractFunction: { value: "totalSupply", required: true },
+            fromAddress: { value: undefined, required: false },
+            toAddress: { value: undefined, required: false },
+            tokenAmount: { value: undefined, required: false },
+            senderAccount: { value: "", validate: value => true, type: "sender-account" },
+            onlyEstimateGas: { value: false, required: true },
+            useEstimatedGasLimit: { value: true, required: true },
+            gasLimit: { value: undefined, validate: validateGasLimit },
+            usePreviousBlocksGasPrice: { value: true, required: true },
+            gasPrice: { value: undefined, validate: validateGasPrice },
+            ethereumClient: { value: "", validate: validateEthereumClient, type: "ethereum-client" }
+        },
+        inputs: 1,
+        outputs: 2,
+        icon: "ethereum.png",
+        paletteLabel: "ERC20 Call",
+        label: function() { return this.name || "ERC20 Call"; },
+        inputLabels: "function args",
+        outputLabels: ["transaction hash", "result"],
+        oneditprepare: prepareEditDialog
+    });
+
+    function validateGasLimit(value) {
+        const inputContractFunction = $("#node-input-contractFunction");
+        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
+        const inputUseEstimatedGasLimit = $("#node-input-useEstimatedGasLimit");
+        if (inputContractFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUseEstimatedGasLimit.length > 0) {
+            // Validation when edit window open.
+            return functionProperties[inputContractFunction.val()].isReadonly ||
+                inputOnlyEstimateGas.is(":checked") ||
+                inputUseEstimatedGasLimit.is(":checked") ||
+                value.length > 0;
+        }
+        else {
+            // Validation when edit window not open.
+            return functionProperties[this.contractFunction].isReadonly ||
+                this.onlyEstimateGas ||
+                this.useEstimatedGasLimit ||
+                value.length > 0;
+        }
+    }
+
+    function validateGasPrice(value) {
+        const inputContractFunction = $("#node-input-contractFunction");
+        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
+        const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
+        if (inputContractFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUsePreviousBlocksGasPrice.length > 0) {
+            // Validation when edit window open.
+            return functionProperties[inputContractFunction.val()].isReadonly ||
+                inputOnlyEstimateGas.is(":checked") ||
+                inputUsePreviousBlocksGasPrice.is(":checked") ||
+                value.length > 0;
+        }
+        else {
+            // Validation when edit window not open.
+            return functionProperties[this.contractFunction].isReadonly ||
+                this.onlyEstimateGas ||
+                this.usePreviousBlocksGasPrice ||
+                value.length > 0;
+        }
+    }
+
+    function validateEthereumClient(value) {
+        const inputContractFunction = $("#node-input-contractFunction");
+        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
+        const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
+        if (inputContractFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUsePreviousBlocksGasPrice.length > 0) {
+            // Validation when edit window open.
+            return functionProperties[inputContractFunction.val()].isReadonly ||
+                inputOnlyEstimateGas.is(":checked") ||
+                !inputUsePreviousBlocksGasPrice.is(":checked") ||
+                value.length > 0;
+        }
+        else {
+            // Validation when edit window not open.
+            return functionProperties[this.contractFunction].isReadonly ||
+                this.onlyEstimateGas ||
+                !this.usePreviousBlocksGasPrice ||
+                value.length > 0;
+        }
+    }
+
+    function prepareEditDialog() {
+        prepareFunctionArgsRows();
+        prepareTransactionRows();
+        prepareGasRows();
+        prepareGasLimitRow();
+        prepareGasPriceRow();
+
+        function prepareFunctionArgsRows() {
+            const inputContractFunction = $("#node-input-contractFunction");
+            updateFunctionArgsRows();
+            inputContractFunction.on("change", () => {
+                prepareFunctionArgsRows();
+            });
+
+            function updateFunctionArgsRows() {
+                allInputs.forEach(id => {
+                    $(`#${id}-row`).hide();
+                });
+                functionProperties[inputContractFunction.val()].requiredInputs.forEach(id => {
+                    $(`#${id}-row`).show();
+                });
+            }
+        }
+
+        function prepareTransactionRows() {
+            const inputContractFunction = $("#node-input-contractFunction");
+            const divTransactionRows = $("#transaction-rows");
+            updateTransactionRowsVisibility();
+            inputContractFunction.on("change", () => {
+                updateTransactionRowsVisibility();
+            });
+
+            function updateTransactionRowsVisibility() {
+                const properties = functionProperties[inputContractFunction.val()];
+                if (properties.isReadonly) {
+                    divTransactionRows.hide();
+                } else {
+                    divTransactionRows.show();
+                }
+            }
+        }
+
+        function prepareGasRows() {
+            const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
+            const divGasRows = $("#gas-rows");
+            updateGasRowsVisibility();
+            inputOnlyEstimateGas.on("click", () => {
+                updateGasRowsVisibility();
+            });
+
+            function updateGasRowsVisibility() {
+                if (inputOnlyEstimateGas.is(":checked")) {
+                    divGasRows.hide();
+                } else {
+                    divGasRows.show();
+                }
+            }
+        }
+
+        function prepareGasLimitRow() {
+            const inputUseEstimatedGasLimit = $("#node-input-useEstimatedGasLimit");
+            const divGasLimitRow = $("#gasLimit-row");
+            updateGasLimitRowVisibility();
+            inputUseEstimatedGasLimit.on("click", () => {
+                updateGasLimitRowVisibility();
+            });
+
+            function updateGasLimitRowVisibility() {
+                if (inputUseEstimatedGasLimit.is(":checked")) {
+                    divGasLimitRow.hide();
+                } else {
+                    divGasLimitRow.show();
+                }
+            }
+        }
+
+        function prepareGasPriceRow() {
+            const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
+            const divGasPriceRow = $("#gasPrice-row");
+            const divEthereumClientRow = $("#ethereumClient-row");
+            updateGasPriceRowVisibility();
+            inputUsePreviousBlocksGasPrice.on("click", () => {
+                updateGasPriceRowVisibility();
+            });
+
+            function updateGasPriceRowVisibility() {
+                if (inputUsePreviousBlocksGasPrice.is(":checked")) {
+                    divGasPriceRow.hide();
+                    divEthereumClientRow.show();
+                } else {
+                    divGasPriceRow.show();
+                    divEthereumClientRow.hide();
+                }
+            }
+        }
+    }
+</script>
+
+<script type="text/html" data-template-name="erc20-call">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-smartContract"><i class="fa fa-file-code-o"></i> Token</label>
+        <input type="text" id="node-input-smartContract" placeholder="Token Contract">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractFunction"><i class="fa fa-code"></i> Function</label>
+        <select id="node-input-contractFunction" style="width: 70%">
+            <option value="totalSupply">Total Supply</option>
+            <option value="balanceOf">Balance</option>
+            <option value="transfer">Transfer To</option>
+            <option value="allowance">Allowance</option>
+            <option value="approve">Approve</option>
+            <option value="transferFrom">Transfer From To</option>
+        </select>
+    </div>
+    <div id="fromAddress-row" class="form-row">
+        <label for="node-input-fromAddress"><i class="fa fa-map-marker"></i> From</label>
+        <input type="text" id="node-input-fromAddress" placeholder="0x89a47029...">
+        <div class="input-info">for dynamic config leave empty and set msg.fromAddress</div>
+    </div>
+    <div id="toAddress-row" class="form-row">
+        <label for="node-input-toAddress"><i class="fa fa-map-marker"></i> To</label>
+        <input type="text" id="node-input-toAddress" placeholder="0x037bB27...">
+        <div class="input-info">for dynamic config leave empty and set msg.toAddress</div>
+    </div>
+    <div id="tokenAmount-row" class="form-row">
+        <label for="node-input-tokenAmount"><i class="fa fa-database"></i> Amount</label>
+        <input type="text" id="node-input-tokenAmount" placeholder="1000000000000000000">
+        <div class="input-info">for dynamic config leave empty and set msg.tokenAmount</div>
+    </div>
+    <div id="transaction-rows">
+        <div class="form-row">
+            <label for="node-input-senderAccount"><i class="fa fa-user-circle-o"></i> Sender</label>
+            <input type="text" id="node-input-senderAccount" placeholder="Sender Account">
+            <div class="input-info">for dynamic config select none and set msg.senderAccount</div>
+        </div>
+        <div class="form-row">
+            <label for="node-input-onlyEstimateGas"><i class="fa fa-tint"></i> Gas</label>
+            <input type="checkbox" id="node-input-onlyEstimateGas" style="width: auto;"> <span class="checkbox-info">only estimate gas but don't execute transaction</span>
+        </div>
+        <div id="gas-rows">
+            <div class="form-row">
+                <label for="node-input-useEstimatedGasLimit"><i class="fa fa-tint"></i> Gas Limit</label>
+                <input type="checkbox" id="node-input-useEstimatedGasLimit" style="width: auto;"> <span class="checkbox-info">use estimation</span>
+            </div>
+            <div id="gasLimit-row" class="form-row">
+                <label for="node-input-gasLimit"></label>
+                <input type="text" id="node-input-gasLimit" placeholder="Gas Limit">
+                <div class="input-info">for dynamic config leave empty and set msg.gasLimit</div>
+            </div>
+            <div class="form-row">
+                <label for="node-input-usePreviousBlocksGasPrice"><i class="fa fa-tint"></i> Gas Price</label>
+                <input type="checkbox" id="node-input-usePreviousBlocksGasPrice" style="width: auto;"> <span class="checkbox-info">use last few blocks median gas price</span>
+            </div>
+            <div id="gasPrice-row" class="form-row">
+                <label for="node-input-gasPrice"></label>
+                <input type="text" id="node-input-gasPrice" placeholder="Gas Price"> <span class="text-info">wei</span>
+                <div class="input-info">for dynamic config leave empty and set msg.gasPrice</div>
+            </div>
+            <div id="ethereumClient-row" class="form-row">
+                <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+                <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="erc20-call">
+    <p>Calls an ERC20 token function.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Contract <span class="property-type">smart-contract</span></dt>
+        <dd>the ERC20 token contract on which to call a function.</dd>
+        <dt>Function <span class="property-type">enumeration</span></dt>
+        <dd>the ERC20 function to call.</dd>
+        <dt>From <span class="property-type">string</span></dt>
+        <dd>the 'from address' argument of the function call.</dd>
+        <dt>To <span class="property-type">string</span></dt>
+        <dd>the 'to address' argument of the function call.</dd>
+        <dt>Amount <span class="property-type">string</span></dt>
+        <dd>the 'token amount' argument of the function call.</dd>
+        <dt>Sender <span class="property-type">sender-account</span></dt>
+        <dd>the ethereum account to send the transaction from.</dd>
+        <dt>Gas <span class="property-type">boolean</span></dt>
+        <dd>indicates whether to execute the function call or only to estimate it's gas cost.</dd>
+        <dt>Gas Limit <span class="property-type">string</span></dt>
+        <dd>the maximum amount of gas willing to pay for the function call.</dd>
+        <dt>Gas Price <span class="property-type">string</span></dt>
+        <dd>the amount of wei willing to pay per unit of gas.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client to query the gas price from.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">fromAddress <span class="property-type">string</span></dt>
+        <dd>(optional) the 'from address' argument of the function call.</dd>
+        <dt class="optional">toAddress <span class="property-type">string</span></dt>
+        <dd>(optional) the 'to address' argument of the function call.</dd>
+        <dt class="optional">tokenAmount <span class="property-type">string | number</span></dt>
+        <dd>(optional) the 'token amount' argument of the function call.</dd>
+        <dt class="optional">senderAccount <span class="property-type">string</span></dt>
+        <dd>(optional) the name of the ethereum account to send the transaction from.</dd>
+        <dt class="optional">gasLimit <span class="property-type">string | number</span></dt>
+        <dd>(optional) the maximum amount of gas willing to pay for the function call.</dd>
+        <dt class="optional">gasPrice <span class="property-type">string | number</span></dt>
+        <dd>(optional) the amount of wei willing to pay per unit of gas.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+        <li>Transaction Hash
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">string</span></dt>
+                <dd>the transaction hash, if the function call requires a transaction.</dd>
+                <dt>summary <span class="property-type">object</span></dt>
+                <dd>a summary of all available data regarding the function call.</dd>
+            </dl>
+        </li>
+        <li>Result
+            <dl class="message-properties">
+                <dt>payload <span class="property-type">string | object | number</span></dt>
+                <dd>the function's return value, the transaction receipt or the estimated gas cost.</dd>
+                <dt>summary <span class="property-type">object</span></dt>
+                <dd>a summary of all available data regarding the function call.</dd>
+            </dl>
+        </li>
+    </ol>
+
+    <h3>Details</h3>
+    <p>
+        This node shares most of its functionality with the <code>contract-call</code> node, with some differences
+        in the configuration and the input. This help text only documents the specific differences. For everything
+        else refer to the <code>contract-call</code> help.
+    </p>
+    <p>
+        The node configuration allows to select one of six ERC20 functions. The rest of the configuration interface
+        adapts according to the selection: It will only show the needed argument inputs for the selected function and
+        it will automatically chose the function call mode (read-only or state changing). The meaning of the input
+        arguments differs depending on the selected ERC20 function.
+    </p>
+    <ol class="node-ports">
+        <li>Total Supply
+            <dl class="message-properties">
+                no arguments.
+            </dl>
+        </li>
+        <li>Balance
+            <dl class="message-properties">
+                <dt>From</dt>
+                <dd>the account for which to get the token balance.</dd>
+            </dl>
+        </li>
+        <li>Transfer To
+            <dl class="message-properties">
+                <dt>To</dt>
+                <dd>the recipient account.</dd>
+                <dt>Amount</dt>
+                <dd>the amount of tokens to transfer (from the sender account).</dd>
+            </dl>
+        </li>
+        <li>Allowance
+            <dl class="message-properties">
+                <dt>Fom</dt>
+                <dd>the token owner account.</dd>
+                <dt>To</dt>
+                <dd>the token spender account.</dd>
+            </dl>
+        </li>
+        <li>Approve
+            <dl class="message-properties">
+                <dt>To</dt>
+                <dd>the spender account.</dd>
+                <dt>Amount</dt>
+                <dd>the amount of tokens (owned by the sender account) to approve.</dd>
+            </dl>
+        </li>
+        <li>Transfer From To
+            <dl class="message-properties">
+                <dt>From</dt>
+                <dd>the token owner account.</dd>
+                <dt>To</dt>
+                <dd>the recipient account.</dd>
+                <dt>Amount</dt>
+                <dd>the amount of tokens to transfer (from the owner account).</dd>
+            </dl>
+        </li>
+    </ol>
+    <p>
+        The <code>Amount</code> argument must be provided in the smallest token unit. The <code>From</code> and
+        <code>To</code> arguments are simply account addresses.
+    </p>
+    <p>
+        Each of the function arguments <code>From</code>, <code>To</code> and <code>Amount</code>, as well as the
+        <code>Sender</code> account, can be configured statically in the node or dynamically by leaving the input field
+        blank and set a property on the input message. Use the input message properties <code>msg.fromAddress</code>,
+        <code>msg.toAddress</code>, <code>msg.tokenAmount</code> and <code>msg.senderAccount</code> for this.
+    </p>
+    <p>
+        The node output ports behave the same way as for the <code>contract-call</code> node. The functions 'Total Supply',
+        'Balance' and 'Allowance' are read-only functions. They do not trigger the transaction hash output and
+        directly return the functions return value on the result port. The other functions are state changing and
+        require a transaction. Therefore they trigger the transaction hash output and provide the transaction receipt on
+        the result port.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://docs.openzeppelin.com/contracts/2.x/api/token/erc20#IERC20">IERC20</a>
+            - the ERC20 interface description.
+        </li>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

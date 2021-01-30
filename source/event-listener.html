@@ -1,0 +1,95 @@
+<script type="text/javascript">
+    RED.nodes.registerType("event-listener", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            smartContract: { value: "", required: true, type: "smart-contract" },
+            contractEvent: { value: undefined, required: true },
+            filter: { value: undefined, required: false }
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "Event Listener",
+        label: function() { return this.name || "Event Listener"; },
+        outputLabels: "event"
+    });
+</script>
+
+<script type="text/html" data-template-name="event-listener">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-smartContract"><i class="fa fa-file-code-o"></i> Contract</label>
+        <input type="text" id="node-input-smartContract" placeholder="Smart Contract">
+    </div>
+    <div class="form-row">
+        <label for="node-input-contractEvent"><i class="fa fa-bolt"></i> Event</label>
+        <input type="text" id="node-input-contractEvent" placeholder="Contract Event">
+    </div>
+    <div class="form-row">
+        <label for="node-input-filter"><i class="fa fa-filter"></i> Filter</label>
+        <input type="text" id="node-input-filter" placeholder="{'myIndexedParam': '0x89a47029...'}">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="event-listener">
+    <p>Listens for smart contract events.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Contract <span class="property-type">smart-contract</span></dt>
+        <dd>the smart contract on which to subscribe to an event.</dd>
+        <dt>Event <span class="property-type">string</span></dt>
+        <dd>the name of the smart contract event to subscribe.</dd>
+        <dt class="optional">Filter <span class="property-type">JSON-string</span></dt>
+        <dd>(optional) to filter the received events.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">object</span></dt>
+        <dd>the event data.</dd>
+        <dt>summary <span class="property-type">object</span></dt>
+        <dd>a summary of all available data regarding the event subscription.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The node subscribes to the event at flow startup and keeps the subscription alive until the flow is stopped or
+        the connection to the ethereum client is lost and and can't be reestablished. Subscribing events requires a
+        websocket connection to the ethereum client, with just a http connection the node won't be usable. To use a
+        ws connection first of all the ethereum client must support it. The ws connection must be configured in the
+        <code>Client</code> property of the selected <code>Contract</code>. More information about the connection
+        and handling connection loss can be found in the documentation of the <code>ethereum-client</code>
+        configuration node.
+    </p>
+    <p>
+        To filter the received events by event properties, a filter expression can be configured. The internally used
+        filter mechanism only allows to filter by 'indexed' event properties. That means the property must be marked
+        with the 'indexed' keyword in the solidity event definition. The filter has to be provided in form of a
+        JSON-string. To filter by a single property and single value, the JSON filter must contain a property with that
+        name and that value, e.g. {'filterProperty': 'filterValue'}. To filter by multiple values put them into an
+        array, e.g. {'filterProperty': ['filterValue1', 'filterValue2']}. The filter lets events pass if they contain
+        one of the listed values (logical OR). It is also possible to filter by multiple event properties. To do that
+        just add multiple properties to the filter JSON, e.g. {'filterProperty1': 'filterValue1', filterProperty2:
+        'filterValue2'}. In this case events must pass both filters (logical AND).
+    </p>
+    <p>
+        The <code>msg.summary</code> on the output message contains: the event name, the used options (filter), the
+        event data.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

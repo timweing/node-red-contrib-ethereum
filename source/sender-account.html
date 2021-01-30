@@ -1,0 +1,152 @@
+<script type="text/javascript">
+    RED.nodes.registerType("sender-account",{
+        category: "config",
+        defaults: {
+            name: { value: undefined, required: true },
+            ethereumClient: { value: "", required: true, type: "ethereum-client" },
+            address: { value: undefined, required: true },
+            managedByEthereumClient: { value: true, required: true },
+            transactionQueueSize: { value: 100, validate: validateTransactionQueueSize }
+        },
+        credentials: {
+            privateKey: { type: "password", value: undefined, validate: validatePrivateKey }
+        },
+        label: function() { return this.name || "Sender Account"; },
+        oneditprepare: prepareEditDialog
+    });
+
+    function validatePrivateKey(value) {
+        const inputManagedByEthereumClient = $("#node-config-input-managedByEthereumClient");
+        if (inputManagedByEthereumClient.length > 0) {
+            // Validation when edit window open.
+            return inputManagedByEthereumClient.is(":checked") || value.length > 0;
+        }
+        // The validation seems to be only called when the edit window is open for configuration nodes.
+    }
+
+    function validateTransactionQueueSize(value) {
+        const inputManagedByEthereumClient = $("#node-config-input-managedByEthereumClient");
+        if (inputManagedByEthereumClient.length > 0) {
+            // Validation when edit window open.
+            return inputManagedByEthereumClient.is(":checked") || value.length > 0;
+        }
+        // The validation seems to be only called when the edit window is open for configuration nodes.
+    }
+
+    function prepareEditDialog() {
+        const inputManagedByEthereumClient = $("#node-config-input-managedByEthereumClient");
+        const divLocallyManagedRows = $("#locallyManaged-rows");
+        updatePrivateKeyRowVisibility();
+        inputManagedByEthereumClient.on("click", () => {
+            updatePrivateKeyRowVisibility();
+        });
+
+        function updatePrivateKeyRowVisibility() {
+            if (inputManagedByEthereumClient.is(":checked")) {
+                divLocallyManagedRows.hide();
+            } else {
+                divLocallyManagedRows.show();
+            }
+        }
+    }
+</script>
+
+<script type="text/html" data-template-name="sender-account">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+        <input type="text" id="node-config-input-ethereumClient" placeholder="Ethereum Client">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-address"><i class="fa fa-map-marker"></i> Address</label>
+        <input type="text" id="node-config-input-address" placeholder="0x89a47029...">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-managedByEthereumClient">Account Management</label>
+        <input type="checkbox" id="node-config-input-managedByEthereumClient" style="width: auto;"> <span class="checkbox-info">account is managed by the ethereum client </span>
+    </div>
+    <div id="locallyManaged-rows">
+        <div class="form-row">
+            <label for="node-config-input-privateKey"><i class="fa fa-key"></i> Private Key</label>
+            <input type="password" id="node-config-input-privateKey" placeholder="18bad27b...">
+        </div>
+        <div class="form-row">
+            <label for="node-config-input-transactionQueueSize"><i class="fa fa-ellipsis-h"></i> Tx Queue</label>
+            <input type="text" id="node-config-input-transactionQueueSize" placeholder="Size">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="sender-account">
+    <p>Represents an ethereum account to send transactions from.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>Name <span class="property-type">string</span></dt>
+        <dd>a name for the account configuration.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client connection that holds the in memory-wallet.</dd>
+        <dt>Address <span class="property-type">string</span></dt>
+        <dd>the ethereum address of the account.</dd>
+        <dt>Account Management <span class="property-type">boolean</span></dt>
+        <dd>indicates whether the account is managed by the configuration node or the ethereum client.</dd>
+        <dt>Private Key <span class="property-type">string</span></dt>
+        <dd>the account private key.</dd>
+        <dt>Tx Queue <span class="property-type">string</span></dt>
+        <dd>the maximum size of the account transaction queue.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        This configuration node holds a global reference to an account configuration and optional also manages the
+        accounts transaction queue. It has two modes that define its functionality.
+    </p>
+    <p>
+        In mode 1 the configuration refers to an ethereum account that is managed by the selected ethereum
+        <code>Client</code>. Most ethereum client software has the ability to natively manage accounts and storing the
+        private keys. So if you run your own ethereum client and choose to manage your accounts there, this is the mode
+        to select. It is selected by checking the <code>Account Management</code> checkbox. In this case no
+        <code>Private Key</code> for the account needs to be provided, because the ethereum client will store it and
+        sign the transactions.
+    </p>
+    <p>
+        If the <code>Account Management</code> checkbox is unchecked, the node operates in mode 2. That means it will
+        store the <code>Private Key</code> of the account to sign transactions and also manage the account transaction
+        queue. The transaction queue enables the Node-RED nodes to submit multiple transactions for one block.
+    </p>
+    <p>
+        Currently the <code>Private Key</code> security in mode 2 is very limited. The standard mechanism of Node-RED
+        to manage credentials is used. The <code>Private Key</code> is not exported when exporting flows as JSON
+        and is stored encrypted on the hard drive. But Node-RED also stores the encryption key on the hard drive,
+        unsecured, and therefore the <code>Private Key</code> is only protected against weak superficial attacks. This
+        solution does not provide a secure keystore. In future versions this must be replaced with a more secure
+        custom solution. For now it is not recommended to use mode 2 to manage accounts with a high ether balance.
+        For such accounts better run your own ethereum client and let the client software manage the private keys.
+    </p>
+    <p>
+        Also the transaction queue implementation still is limited. If a transaction is rejected, it leads to a
+        rejection of all concurrently sent transactions with a higher nonce value set. If a transaction is rejected
+        and other transactions with a higher nonce value have already been sent, they will be blocked in the
+        pending transactions queue, until the gap in the nonce is closed. Only sending another transaction can close
+        the gap. Also if a transaction is never processed (e.g. because gas price set too low) but does not get rejected,
+        it will block all following transactions in the queue as well. Some sort of timeout mechanism for the latest
+        transaction would be needed to handle these issues properly, which might be implemented in future versions.
+    </p>
+    <p>
+        To allow the <code>contract-call</code> node and other nodes, to select the <code>Sender</code> account
+        dynamically, this configuration node creates an entry in Node-RED's global variables store, to map the account
+        name to the node configuration node. Note that account names must be unique in order for this to work.
+        Account names may contain whitespaces for better readability but spaces do not count towards uniqueness.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

@@ -1,0 +1,65 @@
+<script type="text/javascript">
+    RED.nodes.registerType("ethereum-client",{
+        category: "config",
+        defaults: {
+            name: { value: undefined, required: true },
+            url: { value: undefined, required: true }
+        },
+        label: function() { return this.name || "Ethereum Client"; }
+    });
+</script>
+
+<script type="text/html" data-template-name="ethereum-client">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-url"><i class="fa fa-server"></i> URL</label>
+        <input type="text" id="node-config-input-url" placeholder="ws://127.0.0.1:7545">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ethereum-client">
+    <p>Holds a connection to an ethereum-client.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt>Name <span class="property-type">string</span></dt>
+        <dd>a name for the ethereum client configuration.</dd>
+        <dt>URL <span class="property-type">string</span></dt>
+        <dd>the url to the ethereum client.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        This configuration node holds a global connection to an ethereum client, that can be selected in other node
+        configurations. During flow startup, it does an initial connection test to check if the ethereum client
+        responds and throws an error if not.
+    </p>
+    <p>
+        The node supports three connection protocols: HTTP, websocket (ws) and IPC. For HTTP and websocket also the
+        secure versions are supported (https and wss). Which protocol to use depends on what the ethereum client
+        supports and on the usage of the node palette. The <code>event-listener</code> node will only work, if a
+        websocket connection is used, all other functionalities should work with HTTP and websocket. To chose a protocol
+        nothing special needs to be done, it is decided by the provided <code>URL</code>. HTTP example:
+        http://127.0.0.1:7545, websocket example: ws://127.0.0.1:7545, IPC example:
+        /Users/myuser/Library/Ethereum/geth.ipc
+    </p>
+    <p>
+        Unlike HTTP, websocket establishes a permanent bidirectional connection to the ethereum client. If this
+        connection gets interrupted it can affect the event subscriptions made by <code>event-listener</code> nodes,
+        meaning events may not be received if they occur during a connection loss or the connection can be lost
+        permanently. To deal with short network interruptions, the node will try to reconnect after a connection loss.
+        If the reconnect is successful all event subscriptions are renewed. After the fifth unsuccessful reconnect
+        attempt the connection is permanently lost.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

@@ -1,0 +1,135 @@
+<script type="text/javascript">
+    RED.nodes.registerType("wei-conversion", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            fromUnit: { value: "ether", required: true },
+            conversion: { value: "from-wei", required: true },
+            toUnit: { value: "ether", required: true }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "Wei Conversion",
+        label: function() { return this.name || "Wei Conversion"; },
+        inputLabels: "wei or other unit",
+        outputLabels: "other unit or wei",
+        oneditprepare: prepareEditDialog
+    });
+
+    function prepareEditDialog() {
+         const inputConversion = $("#node-input-conversion");
+         const fromUnitRow = $("#fromUnit-row");
+         const toUnitRow = $("#toUnit-row");
+         updateUnitRowsVisibility();
+        inputConversion.on("change", () => {
+            updateUnitRowsVisibility();
+        });
+
+         function updateUnitRowsVisibility() {
+             const conversion = inputConversion.val();
+             if (conversion === "from-wei") {
+                 fromUnitRow.hide();
+                 toUnitRow.show();
+             }
+             else if (conversion === "to-wei") {
+                 fromUnitRow.show();
+                 toUnitRow.hide();
+             }
+             else {
+                 fromUnitRow.hide();
+                 toUnitRow.hide();
+             }
+         }
+    }
+</script>
+
+<script type="text/html" data-template-name="wei-conversion">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div id="fromUnit-row" class="form-row">
+        <label for="node-input-fromUnit"><i class="fa fa-sign-in"></i> From</label>
+        <select id="node-input-fromUnit" style="width: 70%">
+            <option value="ether">Ether</option>
+            <option value="gwei">Gwei</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-conversion"><i class="fa fa-random"></i> Conversion</label>
+        <select id="node-input-conversion" style="width: 70%">
+            <option value="from-wei">From Wei</option>
+            <option value="to-wei">To Wei</option>
+        </select>
+    </div>
+    <div id="toUnit-row" class="form-row">
+        <label for="node-input-toUnit"><i class="fa fa-sign-out"></i> To</label>
+        <select id="node-input-toUnit" style="width: 70%">
+            <option value="ether">Ether</option>
+            <option value="gwei">Gwei</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="wei-conversion">
+    <p>Converts numbers from wei to another unit or from another unit to wei.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>From <span class="property-type">enumeration</span></dt>
+        <dd>the source unit.</dd>
+        <dt>Conversion <span class="property-type">enumeration</span></dt>
+        <dd>the conversion mode.</dd>
+        <dt>To <span class="property-type">enumeration</span></dt>
+        <dd>the target unit.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string | number</span></dt>
+        <dd>the number to convert.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string</span></dt>
+        <dd>the converted number.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The node has two modes. The first one to convert numbers from wei to another unit and the seconds one to convert
+        from another unit to wei. Depending on the selected mode either the source or the target unit must be selected too.
+    </p>
+    <p>
+        Converting between two units other than wei is currently not supported by a single node. To achieve this,
+        numbers need to be processed by two nodes consecutively, the first one converting from the source unit to wei
+        and the second one from wei to the target unit.
+    </p>
+    <p>
+        Because JavaScript numbers have a limited range for integer values, the input number from <code>msg.payload</code>
+        is internally converted to a bignumber format before doing the unit conversion. Input numbers outside the range
+        of <code>Number.MIN_SAFE_INTEGER</code> to <code>Number.MAX_SAFE_INTEGER</code> must be supplied as strings,
+        numbers inside that range can be supplied as either strings or numbers.
+    </p>
+    <p>
+        The internally used bignumber library has one significant limitation: It can't initialize bignumbers from
+        decimal numbers. Therefore this node doesn't support decimal numbers as input in <code>msg.payload</code>.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://github.com/indutny/bn.js/">bn.js</a>
+            - the internally used bignumber library.
+        </li>
+        <li>
+            <a href="https://gitlab.enterpriselab.ch/icontess/node-red-contrib-ethereum">GitLab</a>
+            - the nodes gitlab repository.
+        </li>
+    </ul>
+</script>

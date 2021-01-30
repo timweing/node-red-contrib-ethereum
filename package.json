@@ -1,0 +1,42 @@
+{
+  "name": "node-red-contrib-ethereum",
+  "version": "1.0.0",
+  "description": "A node-RED package containing nodes to interact with ethe ethereum blockchain and smart contracts.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.enterpriselab.ch:icontess/node-red-contrib-ethereum.git"
+  },
+  "author": "Ivar Contessotto",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^1.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1",
+    "node-red": "^1.2.3",
+    "node-red-node-test-helper": "^0.2.5"
+  },
+  "node-red": {
+    "nodes": {
+      "contract-call": "source/contract-call.js",
+      "erc20-call": "source/erc20-call.js",
+      "event-listener": "source/event-listener.js",
+      "erc20-listener": "source/erc20-listener.js",
+      "event-reader": "source/event-reader.js",
+      "erc20-reader": "source/erc20-reader.js",
+      "address-gen": "source/address-gen.js",
+      "gas-price": "source/gas-price.js",
+      "wei-conversion": "source/wei-conversion.js",
+      "ethereum-client": "source/ethereum-client.js",
+      "smart-contract": "source/smart-contract.js",
+      "sender-account": "source/sender-account.js"
+    }
+  }
+}
