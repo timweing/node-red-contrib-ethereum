@@ -24,8 +24,7 @@
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined, validate: validateGasLimit },
             usePreviousBlocksGasPrice: { value: true, required: true },
-            gasPrice: { value: undefined, validate: validateGasPrice },
-            ethereumClient: { value: "", validate: validateEthereumClient, type: "ethereum-client" }
+            gasPrice: { value: undefined, validate: validateGasPrice }
         },
         inputs: 1,
         outputs: 2,
@@ -73,26 +72,6 @@
             return functionProperties[this.contractFunction].isReadonly ||
                 this.onlyEstimateGas ||
                 this.usePreviousBlocksGasPrice ||
-                value.length > 0;
-        }
-    }
-
-    function validateEthereumClient(value) {
-        const inputContractFunction = $("#node-input-contractFunction");
-        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
-        const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
-        if (inputContractFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUsePreviousBlocksGasPrice.length > 0) {
-            // Validation when edit window open.
-            return functionProperties[inputContractFunction.val()].isReadonly ||
-                inputOnlyEstimateGas.is(":checked") ||
-                !inputUsePreviousBlocksGasPrice.is(":checked") ||
-                value.length > 0;
-        }
-        else {
-            // Validation when edit window not open.
-            return functionProperties[this.contractFunction].isReadonly ||
-                this.onlyEstimateGas ||
-                !this.usePreviousBlocksGasPrice ||
                 value.length > 0;
         }
     }
@@ -176,7 +155,6 @@
         function prepareGasPriceRow() {
             const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
             const divGasPriceRow = $("#gasPrice-row");
-            const divEthereumClientRow = $("#ethereumClient-row");
             updateGasPriceRowVisibility();
             inputUsePreviousBlocksGasPrice.on("click", () => {
                 updateGasPriceRowVisibility();
@@ -185,10 +163,8 @@
             function updateGasPriceRowVisibility() {
                 if (inputUsePreviousBlocksGasPrice.is(":checked")) {
                     divGasPriceRow.hide();
-                    divEthereumClientRow.show();
                 } else {
                     divGasPriceRow.show();
-                    divEthereumClientRow.hide();
                 }
             }
         }
@@ -259,10 +235,6 @@
                 <input type="text" id="node-input-gasPrice" placeholder="Gas Price"> <span class="text-info">wei</span>
                 <div class="input-info">for dynamic config leave empty and set msg.gasPrice</div>
             </div>
-            <div id="ethereumClient-row" class="form-row">
-                <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
-                <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
-            </div>
         </div>
     </div>
 </script>
@@ -292,8 +264,6 @@
         <dd>the maximum amount of gas willing to pay for the function call.</dd>
         <dt>Gas Price <span class="property-type">string</span></dt>
         <dd>the amount of wei willing to pay per unit of gas.</dd>
-        <dt>Client <span class="property-type">ethereum-client</span></dt>
-        <dd>the ethereum client to query the gas price from.</dd>
     </dl>
 
     <h3>Inputs</h3>

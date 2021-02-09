@@ -12,8 +12,7 @@
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined, validate: value => true },
             usePreviousBlocksGasPrice: { value: true, required: true },
-            gasPrice: { value: undefined, validate: value => true },
-            ethereumClient: { value: "", validate: validateEthereumClient, type: "ethereum-client" }
+            gasPrice: { value: undefined, validate: value => true }
         },
         inputs: 1,
         outputs: 2,
@@ -24,26 +23,6 @@
         outputLabels: ["transaction hash", "result"],
         oneditprepare: prepareEditDialog
     });
-
-    function validateEthereumClient(value) {
-        const inputReadonlyFunction = $("#node-input-readonlyFunction");
-        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
-        const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
-        if (inputReadonlyFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUsePreviousBlocksGasPrice.length > 0) {
-            // Validation when edit window open.
-            return inputReadonlyFunction.is(":checked") ||
-                inputOnlyEstimateGas.is(":checked") ||
-                !inputUsePreviousBlocksGasPrice.is(":checked") ||
-                value.length > 0;
-        }
-        else {
-            // Validation when edit window not open.
-            return this.readonlyFunction ||
-                this.onlyEstimateGas ||
-                !this.usePreviousBlocksGasPrice ||
-                value.length > 0;
-        }
-    }
 
     function prepareEditDialog() {
         prepareTransactionRows();
@@ -105,7 +84,6 @@
         function prepareGasPriceRow() {
             const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
             const divGasPriceRow = $("#gasPrice-row");
-            const divEthereumClientRow = $("#ethereumClient-row");
             updateGasPriceRowVisibility();
             inputUsePreviousBlocksGasPrice.on("click", () => {
                 updateGasPriceRowVisibility();
@@ -114,10 +92,8 @@
             function updateGasPriceRowVisibility() {
                 if (inputUsePreviousBlocksGasPrice.is(":checked")) {
                     divGasPriceRow.hide();
-                    divEthereumClientRow.show();
                 } else {
                     divGasPriceRow.show();
-                    divEthereumClientRow.hide();
                 }
             }
         }
@@ -170,10 +146,6 @@
                 <input type="text" id="node-input-gasPrice" placeholder="Gas Price"> <span class="text-info">Wei</span>
                 <div class="input-info">for dynamic config leave empty and set msg.gasPrice</div>
             </div>
-            <div id="ethereumClient-row" class="form-row">
-                <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
-                <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
-            </div>
         </div>
     </div>
 </script>
@@ -199,8 +171,6 @@
         <dd>the maximum amount of gas willing to pay for the function call.</dd>
         <dt>Gas Price <span class="property-type">string</span></dt>
         <dd>the amount of wei willing to pay per unit of gas.</dd>
-        <dt>Client <span class="property-type">ethereum-client</span></dt>
-        <dd>the ethereum client to query the gas price from.</dd>
     </dl>
 
     <h3>Inputs</h3>
@@ -256,12 +226,11 @@
         <code>Gas Limit</code> and the <code>Gas Price</code> for the transaction. The <code>Gas Limit</code> can be
         set manually or an estimate can be used, by checking the <code>Gas Limit</code> checkbox. The
         <code>Gas Price</code> can also be set manually or the median gas price from the last few blocks can be used,
-        by checking the <code>Gas Price</code> checkbox and selecting an ethereum <code>Client</code>. Mode 2 will
-        trigger a message on the transaction hash output port, after the transaction has been sent, containing the
-        transaction hash in the <code>msg.payload</code>. As soon as the transaction has been mined, the result output
-        port emits a message containing the full transaction receipt in the <code>msg.payload</code>. Return values of
-        the function are not available from outside the blockchain, but if the function emits an event the event data
-        is available as part of the receipt.
+        by checking the <code>Gas Price</code> checkbox. Mode 2 will trigger a message on the transaction hash output
+        port, after the transaction has been sent, containing the transaction hash in the <code>msg.payload</code>.
+        As soon as the transaction has been mined, the result output port emits a message containing the full
+        transaction receipt in the <code>msg.payload</code>. Return values of the function are not available from
+        outside the blockchain, but if the function emits an event the event data is available as part of the receipt.
     </p>
     <p>
         Mode 3 is not actually executing the function call but only estimating its gas cost. It is selected by checking

@@ -6,7 +6,6 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
         const node = this;
 
         const smartContract = RED.nodes.getNode(config.smartContract);
-        const ethereumClient = RED.nodes.getNode(config.ethereumClient);
 
         // Don't start processing messages until config nodes are ready.
         smartContract.getContract()
@@ -94,7 +93,7 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
 
                 async function determineGasPrice() {
                     if (config.usePreviousBlocksGasPrice) {
-                        const web3 = await ethereumClient.getWeb3();
+                        const web3 = await smartContract.ethereumClient.getWeb3();
                         return await web3.eth.getGasPrice();
                     }
                     else if (config.gasPrice) {

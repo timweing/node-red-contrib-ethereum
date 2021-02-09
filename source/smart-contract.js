@@ -6,6 +6,7 @@ module.exports = function(RED) {
         const node = this;
 
         node.name = config.name;
+        node.ethereumClient = RED.nodes.getNode(config.ethereumClient);
 
         let contractInstance = undefined;
         const contractPromises = [];
@@ -22,8 +23,7 @@ module.exports = function(RED) {
             })
         }
 
-        const ethereumClient = RED.nodes.getNode(config.ethereumClient);
-        ethereumClient.getWeb3()
+        node.ethereumClient.getWeb3()
             .then(initialize)
             .catch(e => {
                 node.error(e);
@@ -46,9 +46,9 @@ module.exports = function(RED) {
                 async function checkSmartContractExists() {
                     const contractByteCode = await web3.eth.getCode(config.address)
                     if (contractByteCode === '0x' || contractByteCode === '0x0') {
-                        throw new Error(`Contract '${config.name}' not found on ethereum client '${ethereumClient.name}'. Did you enter the correct contract address? '${config.address}'`);
+                        throw new Error(`Contract '${config.name}' not found on ethereum client '${node.ethereumClient.name}'. Did you enter the correct contract address? '${config.address}'`);
                     }
-                    node.log(`Contract '${config.name}' found on ethereum client '${ethereumClient.name}'`);
+                    node.log(`Contract '${config.name}' found on ethereum client '${node.ethereumClient.name}'`);
                 }
             }
             catch (e) {

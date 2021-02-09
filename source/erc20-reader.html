@@ -6,7 +6,6 @@
             name: { value: undefined },
             smartContract: { value: "", required: true, type: "smart-contract" },
             contractEvent: { value: "Transfer", required: true },
-            ethereumClient: { value: "", required: true, type: "ethereum-client" },
             fromBlock: { value: "0", required: false },
             toBlock: { value: "latest", required: false },
             filterFrom: { value: undefined, required: false },
@@ -36,10 +35,6 @@
             <option value="Transfer">Transfer</option>
             <option value="Approval">Approval</option>
         </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
-        <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
     </div>
     <div class="form-row">
         <label for="node-input-fromBlock"><i class="fa fa-play"></i> From Block</label>
@@ -74,8 +69,6 @@
         <dd>the ERC20 token contract on which to query past events.</dd>
         <dt>Event <span class="property-type">string</span></dt>
         <dd>the ERC20 event to query.</dd>
-        <dt>Client <span class="property-type">ethereum-client</span></dt>
-        <dd>the ethereum client to query the latest block number on.</dd>
         <dt class="optional">From Block <span class="property-type">string</span></dt>
         <dd>(optional) the lower limit of the block number filter.</dd>
         <dt class="optional">To Block <span class="property-type">string</span></dt>

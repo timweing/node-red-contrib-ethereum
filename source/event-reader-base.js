@@ -6,7 +6,6 @@ module.exports = function(RED, getFilter) {
         const node = this;
 
         const smartContract = RED.nodes.getNode(config.smartContract);
-        const ethereumClient = RED.nodes.getNode(config.ethereumClient);
 
         // Don't start processing messages until config nodes are ready.
         smartContract.getContract()
@@ -84,7 +83,7 @@ module.exports = function(RED, getFilter) {
                     if (toBlockParsed !== "latest") {
                         return toBlockParsed + fromBlockParsed;
                     }
-                    const web3 = await ethereumClient.getWeb3();
+                    const web3 = await smartContract.ethereumClient.getWeb3();
                     const latest = await web3.eth.getBlockNumber();
                     return latest + fromBlockParsed;
                 }
