@@ -31,6 +31,7 @@
       "erc20-call": "source/erc20-call.js",
       "erc20-listener": "source/erc20-listener.js",
       "erc20-reader": "source/erc20-reader.js",
+      "transaction-reader": "source/transaction-reader.js",
       "gas-price": "source/gas-price.js",
       "ether-conversion": "source/ether-conversion.js",
       "address-gen": "source/address-gen.js",

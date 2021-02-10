@@ -14,12 +14,12 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
 
         async function handleInputMessage(msg, send, done) {
             try {
-                msg.summary = {};
+                msg.summary = null; // Clear previous summary (from another node)
                 const contract = await smartContract.getContract();
                 const args = prepareArgs(config, msg, contract);
                 const contractCall = contract.methods[config.contractFunction].apply(null, args);
                 const options = {};
-                prepareSummary(args, options);
+                initializeSummary(args, options);
 
                 let result;
                 if (isReadonlyCall(config)) {
@@ -106,7 +106,7 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 }
             }
 
-            function prepareSummary(args, options) {
+            function initializeSummary(args, options) {
                 msg.summary = {
                     function: config.contractFunction,
                     args: args,

@@ -1,0 +1,120 @@
+<script type="text/javascript">
+    RED.nodes.registerType("transaction-reader", {
+        category: "ethereum",
+        color: '#D8BFD8',
+        defaults: {
+            name: { value: undefined },
+            ethereumClient: { value: "", required: true, type: "ethereum-client" },
+            queryReceipt: { value: true, required: true },
+            getByTxHash: { value: true, required: true },
+            fromBlock: { value: "-9", required: false },
+            toBlock: { value: "latest", required: false }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "ethereum.png",
+        paletteLabel: "Transaction Reader",
+        label: function() { return this.name || "Transaction Reader"; },
+        outputLabels: "transactions and receipts",
+        oneditprepare: prepareFilterRows
+    });
+
+    function prepareFilterRows() {
+        const inputGetByTxHash = $("#node-input-getByTxHash");
+        const divFilterRows = $("#filter-rows");
+        updateFilterRowsVisibility();
+        inputGetByTxHash.on("click", () => {
+            updateFilterRowsVisibility();
+        });
+
+        function updateFilterRowsVisibility() {
+            if (inputGetByTxHash.is(":checked")) {
+                divFilterRows.hide();
+            } else {
+                divFilterRows.show();
+            }
+        }
+    }
+</script>
+
+<script type="text/html" data-template-name="transaction-reader">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-ethereumClient"><i class="fa fa-server"></i> Client</label>
+        <input type="text" id="node-input-ethereumClient" placeholder="Ethereum Client">
+    </div>
+    <div class="form-row">
+        <label for="node-input-queryReceipt"><i class="fa fa-eye" aria-hidden="true"></i> Receipt</label>
+        <input type="checkbox" style="width: auto;" id="node-input-queryReceipt"> <span class="checkbox-info">additionally query the transaction receipt</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-getByTxHash"><i class="fa fa-hashtag" aria-hidden="true"></i> By Hash</label>
+        <input type="checkbox" style="width: auto;" id="node-input-getByTxHash"> <span class="checkbox-info">query a specific transaction by hash (set msg.payload)</span>
+    </div>
+    <div id="filter-rows">
+        <div class="form-row">
+            <label for="node-input-fromBlock"><i class="fa fa-play"></i> From Block</label>
+            <input type="text" id="node-input-fromBlock" placeholder="0">
+            <div class="input-info">for dynamic config leave empty and set msg.fromBlock</div>
+        </div>
+        <div class="form-row">
+            <label for="node-input-toBlock"><i class="fa fa-stop"></i> To Block</label>
+            <input type="text" id="node-input-toBlock" placeholder="latest">
+            <div class="input-info">for dynamic config leave empty and set msg.toBlock</div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="transaction-reader">
+    <p>Queries transactions and transaction receipts.</p>
+
+    <h3>Properties</h3>
+    <dl class="message-properties">
+        <dt class="optional">Name <span class="property-type">string</span></dt>
+        <dd>(optional) a name for the node.</dd>
+        <dt>Client <span class="property-type">ethereum-client</span></dt>
+        <dd>the ethereum client connection to query the transactions.</dd>
+        <dt>Receipt <span class="property-type">boolean</span></dt>
+        <dd>indicates whether additionally the receipt data should be queried.</dd>
+        <dt>By Hash <span class="property-type">boolean</span></dt>
+        <dd>indicates whether to query a specific transaction by hash.</dd>
+        <dt class="optional">From Block <span class="property-type">string</span></dt>
+        <dd>(optional) the lower limit of the block number filter.</dd>
+        <dt class="optional">To Block <span class="property-type">string</span></dt>
+        <dd>(optional) the upper limit of the block number filter.</dd>
+    </dl>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">payload <span class="property-type">string</span></dt>
+        <dd>(optional) a transaction hash.</dd>
+        <dt class="optional">fromBlock <span class="property-type">number | string</span></dt>
+        <dd>(optional) the lower limit of the block number filter.</dd>
+        <dt class="optional">toBlock <span class="property-type">number | string</span></dt>
+        <dd>(optional) the upper limit of the block number filter.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">array</span></dt>
+        <dd>the found transaction(s) and receipt(s).</dd>
+        <dt>summary <span class="property-type">object</span></dt>
+        <dd>a summary of all available data regarding the transactions query.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>
+        The details go here.
+    </p>
+
+    <h3>References</h3>
+    <ul>
+        <li>
+            <a href="https://github.com/timweing/node-red-contrib-ethereum">GitHub</a>
+            - the nodes Git repository.
+        </li>
+    </ul>
+</script>
