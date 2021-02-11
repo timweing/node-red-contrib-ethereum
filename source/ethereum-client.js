@@ -27,7 +27,10 @@ module.exports = function(RED) {
             const web3 =  getWeb3Instance();
             web3.eth.net.getId().then(id => {
                 node.log(`Connection test successful (Ethereum client: '${config.name}', Url: '${config.url}', Id: '${id}')`);
-                web3.eth.handleRevert = true; // Must be enabled to get the revert reason from 'require' or 'revert' operations in the contract.
+                // Must be enabled to get the revert reason from 'require' or 'revert' operations in the contract.
+                // Issue: This web3 feature is currently broken and must be disabled to avoid uncatchable exceptions.
+                // https://github.com/ChainSafe/web3.js/issues/3742
+                web3.eth.handleRevert = false;
                 web3Instance = web3;
                 while (web3Promises.length > 0) {
                     web3Promises.pop().resolve(web3Instance);
