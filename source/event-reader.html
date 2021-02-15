@@ -98,14 +98,13 @@
     <p>
         This node additionally allows to filter by blocks in which the events occurred. A lower and an upper limit
         block number can be defined to set a block range from which the events will be queried. The limits may be fix
-        block numbers or variables. The possible variables are: 'latest' for the number of the latest mined block,
-        'earliest' for the genesis block or 'pending' for the number of the currently mined block, which includes
-        events from pending transactions. It is also possible to set a negative number as the lower limit, which will
+        block numbers or variables. The possible variables are: 'latest' for the number of the latest mined block or
+        'earliest' for the genesis block. It is also possible to set a negative number as the lower limit, which will
         form the block range by subtracting this number from the upper limit. E.g. setting <code>From Block</code> to
         -6 and <code>To Block</code> to 10 will result in a range from block 4 to 10, or setting <code>From Block</code>
         to -2 and <code>To Block</code> to 'latest' will give the range that includes the three latest blocks. The
-        default is to query all blocks from the genesis block to the latest mined block (not including pending
-        transactions).
+        default is to query all blocks from the genesis block to the latest mined block. Querying events from pending
+        transactions is not supported.
     </p>
     <p>
         The three filter properties <code>From Block</code>, <code>To Block</code> and <code>Filter</code> can, if left
