@@ -1,4 +1,5 @@
 const BlockRange = require("./block-range");
+const AddressFilter = require("./address-filter");
 
 module.exports = function(RED) {
     RED.nodes.registerType("transaction-reader", TransactionReader);
@@ -46,21 +47,65 @@ module.exports = function(RED) {
             }
 
             async function getByBlockRange(msg, web3) {
-                const blockRange = await BlockRange.getBlockRangeConfig(config, msg, web3);
-                blockRange.fromBlock = await BlockRange.resolveVariable(blockRange.fromBlock, web3);
-                blockRange.toBlock = await BlockRange.resolveVariable(blockRange.toBlock, web3);
-                msg.summary = { blockRange: blockRange };
+                msg.summary = {};
+                const blockRange = await getBlockRange();
+                const filterFrom = getFilterFrom();
+                const filterTo = getFilterTo();
 
                 const transactionData = [];
                 for (let blockNumber =  blockRange.fromBlock; blockNumber <= blockRange.toBlock; blockNumber++) {
                     const block = await web3.eth.getBlock(blockNumber, true);
                     for (let transactionIndex = 0; transactionIndex < block.transactions.length; transactionIndex++) {
                         const transaction = block.transactions[transactionIndex];
-                        transactionData.push(await getTransactionData(transaction, web3));
+                        if (allFiltersSatisfied(transaction)) {
+                            transactionData.push(await getTransactionData(transaction, web3));
+                        }
                     }
                 }
 
                 msg.payload = transactionData;
+
+                async function getBlockRange() {
+                    const blockRange = await BlockRange.getBlockRange(config, msg, web3);
+                    blockRange.fromBlock = await BlockRange.resolveVariable(blockRange.fromBlock, web3);
+                    blockRange.toBlock = await BlockRange.resolveVariable(blockRange.toBlock, web3);
+                    msg.summary.fromBlock = blockRange.fromBlock;
+                    msg.summary.toBlock = blockRange.toBlock;
+                    return blockRange;
+                }
+
+                function getFilterFrom() {
+                    const filterFrom = AddressFilter.getFilterFrom(config, msg);
+                    if (filterFrom) {
+                        msg.summary.filterFrom = filterFrom;
+                    }
+                    return filterFrom;
+                }
+
+                function getFilterTo() {
+                    const filterTo = AddressFilter.getFilterTo(config, msg);
+                    if (filterTo) {
+                        msg.summary.filterTo = filterTo;
+                    }
+                    return filterTo;
+                }
+
+                function allFiltersSatisfied(transaction) {
+                    return hexStringFilter(filterFrom, transaction.from) && hexStringFilter(filterTo, transaction.to);
+
+                    function hexStringFilter(filter, transactionProperty) {
+                        if (filter) {
+                            const property = transactionProperty.toLowerCase();
+                            if (Array.isArray(filter)) {
+                                return filter.filter(f => f.toLowerCase() === property).length > 0;
+                            }
+                            else {
+                                return filter.toLowerCase() === property;
+                            }
+                        }
+                        return true;
+                    }
+                }
             }
 
             async function getTransactionData(transaction, web3) {

@@ -1,9 +1,9 @@
 module.exports = {
-    getBlockRangeConfig,
+    getBlockRange,
     resolveVariable
 }
 
-async function getBlockRangeConfig(config, msg, web3) {
+async function getBlockRange(config, msg, web3) {
     const blockRange = {};
     blockRange.toBlock = parseBlockNumberConfig("toBlock", config, msg);
     validateToBlock(blockRange.toBlock);

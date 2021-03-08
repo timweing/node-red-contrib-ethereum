@@ -1,11 +1,5 @@
 module.exports = {
-    parseFilter,
     getFilterForEvent
-}
-
-function parseFilter(raw) {
-    const addresses = raw.split(",").map(e => e.trim());
-    return addresses.length > 1 ? addresses : addresses[0];
 }
 
 function getFilterForEvent(eventName, filterFrom, filterTo) {

@@ -1,5 +1,5 @@
 const EventReaderBase = require("./event-reader-base");
-const EventFilter = require("./event-filter");
+const ParseInput = require("./parse-input");
 
 module.exports = function(RED) {
     const eventReaderBase = new EventReaderBase(RED, getFilter);
@@ -7,7 +7,7 @@ module.exports = function(RED) {
 
     function getFilter(config, msg, node) {
         if (config.filter) {
-            return EventFilter.parseFilter(config.filter, node);
+            return ParseInput.parseJsonString(config.filter, node);
         }
         else if (msg.hasOwnProperty("filter")) {
             return msg.filter;

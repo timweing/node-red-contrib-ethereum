@@ -20,7 +20,7 @@ module.exports = function(RED, getFilter) {
                 const contract = await smartContract.getContract();
                 const options = {};
 
-                const blockRange = await BlockRange.getBlockRangeConfig(config, msg, await smartContract.ethereumClient.getWeb3());
+                const blockRange = await BlockRange.getBlockRange(config, msg, await smartContract.ethereumClient.getWeb3());
                 options.fromBlock = blockRange.fromBlock;
                 options.toBlock = blockRange.toBlock;
 

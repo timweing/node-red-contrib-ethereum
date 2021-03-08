@@ -12918,7 +12918,7 @@
     "tosidebar": true,
     "console": false,
     "tostatus": false,
-    "complete": "payload.events.Transfer",
+    "complete": "payload",
     "targetType": "msg",
     "statusVal": "",
     "statusType": "auto",
@@ -15639,7 +15639,7 @@
     "name": "From Account 1",
     "props": [
       {
-        "p": "filterFom",
+        "p": "filterFrom",
         "v": "0x89a47029b7168a240BD49bd446F79cee6cad11D4",
         "vt": "str"
       },
@@ -21981,7 +21981,7 @@
     "scope": null,
     "uncaught": false,
     "x": 100,
-    "y": 2480,
+    "y": 4240,
     "wires": [
       [
         "ca84c0cc.c06b7"
@@ -22002,7 +22002,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 250,
-    "y": 2480,
+    "y": 4240,
     "wires": []
   },
   {
@@ -22012,7 +22012,7 @@
     "name": "Error Handling",
     "info": "Notice how the error is written to the debug console AND also is caught by the catch node.\nThis would make it possible to impelement an error flow from the catch node, for instance do a retry or write the error to a database.",
     "x": 110,
-    "y": 2440,
+    "y": 4200,
     "wires": []
   },
   {
@@ -23153,6 +23153,8 @@
     "getByTxHash": false,
     "fromBlock": "-9",
     "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
     "x": 330,
     "y": 1600,
     "wires": [
@@ -23282,7 +23284,7 @@
     "fromBlock": "-9",
     "toBlock": "latest",
     "x": 330,
-    "y": 2340,
+    "y": 4100,
     "wires": [
       [
         "3f790a2b.9d7766"
@@ -23311,7 +23313,7 @@
     "payload": "",
     "payloadType": "date",
     "x": 110,
-    "y": 2340,
+    "y": 4100,
     "wires": [
       [
         "f29d37f3.4851a8"
@@ -23325,7 +23327,7 @@
     "name": "Test Summary",
     "info": "",
     "x": 110,
-    "y": 2300,
+    "y": 4060,
     "wires": []
   },
   {
@@ -23339,7 +23341,7 @@
     "fromBlock": "-9",
     "toBlock": "latest",
     "x": 280,
-    "y": 2380,
+    "y": 4140,
     "wires": [
       [
         "3f790a2b.9d7766"
@@ -23368,7 +23370,7 @@
     "payload": "",
     "payloadType": "date",
     "x": 110,
-    "y": 2380,
+    "y": 4140,
     "wires": [
       [
         "21417344.4b677c"
@@ -23389,7 +23391,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 580,
-    "y": 2360,
+    "y": 4120,
     "wires": []
   },
   {
@@ -23421,7 +23423,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 320,
-    "y": 1700,
+    "y": 3460,
     "wires": [
       [
         "c4734faf.887a5"
@@ -23451,7 +23453,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 130,
-    "y": 1700,
+    "y": 3460,
     "wires": [
       [
         "61289e88.ce606"
@@ -23465,7 +23467,7 @@
     "name": "Get Transactions and Receipts from static Block Range",
     "info": "",
     "x": 240,
-    "y": 1660,
+    "y": 3420,
     "wires": []
   },
   {
@@ -23482,7 +23484,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 570,
-    "y": 1700,
+    "y": 3460,
     "wires": []
   },
   {
@@ -23496,7 +23498,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 360,
-    "y": 1740,
+    "y": 3500,
     "wires": [
       [
         "b7b53807.b3bfa8"
@@ -23517,7 +23519,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 610,
-    "y": 1740,
+    "y": 3500,
     "wires": []
   },
   {
@@ -23531,7 +23533,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 360,
-    "y": 1820,
+    "y": 3580,
     "wires": [
       [
         "aac1a0f6.efce6"
@@ -23552,7 +23554,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 610,
-    "y": 1820,
+    "y": 3580,
     "wires": []
   },
   {
@@ -23566,7 +23568,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 340,
-    "y": 1860,
+    "y": 3620,
     "wires": [
       [
         "2aef8acc.0f5056"
@@ -23587,7 +23589,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 590,
-    "y": 1860,
+    "y": 3620,
     "wires": []
   },
   {
@@ -23601,7 +23603,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 340,
-    "y": 1780,
+    "y": 3540,
     "wires": [
       [
         "74c86171.55934"
@@ -23622,7 +23624,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 590,
-    "y": 1780,
+    "y": 3540,
     "wires": []
   },
   {
@@ -23648,7 +23650,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 150,
-    "y": 1740,
+    "y": 3500,
     "wires": [
       [
         "be0bee92.8249"
@@ -23678,7 +23680,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 130,
-    "y": 1780,
+    "y": 3540,
     "wires": [
       [
         "ea907931.f44d88"
@@ -23708,7 +23710,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 140,
-    "y": 1820,
+    "y": 3580,
     "wires": [
       [
         "c2d4a2ff.13113"
@@ -23738,7 +23740,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 130,
-    "y": 1860,
+    "y": 3620,
     "wires": [
       [
         "17e2175d.dfb0e9"
@@ -23752,7 +23754,7 @@
     "name": "Test Runtime Validation Errors of Block Range",
     "info": "",
     "x": 210,
-    "y": 1920,
+    "y": 3680,
     "wires": []
   },
   {
@@ -23766,7 +23768,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 360,
-    "y": 1960,
+    "y": 3720,
     "wires": [
       [
         "9973e686.e88918"
@@ -23791,7 +23793,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 150,
-    "y": 1960,
+    "y": 3720,
     "wires": [
       [
         "e2686036.3171c"
@@ -23812,7 +23814,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 590,
-    "y": 1960,
+    "y": 3720,
     "wires": []
   },
   {
@@ -23826,7 +23828,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 340,
-    "y": 2000,
+    "y": 3760,
     "wires": [
       [
         "dcd4e794.bdf4e8"
@@ -23851,7 +23853,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 140,
-    "y": 2000,
+    "y": 3760,
     "wires": [
       [
         "8775427d.35aa6"
@@ -23872,7 +23874,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 570,
-    "y": 2000,
+    "y": 3760,
     "wires": []
   },
   {
@@ -23886,7 +23888,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 340,
-    "y": 2040,
+    "y": 3800,
     "wires": [
       [
         "544f76df.eb9ab8"
@@ -23907,7 +23909,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 570,
-    "y": 2040,
+    "y": 3800,
     "wires": []
   },
   {
@@ -23933,7 +23935,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 140,
-    "y": 2040,
+    "y": 3800,
     "wires": [
       [
         "f1afd3e4.f6c0d"
@@ -23963,7 +23965,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 170,
-    "y": 2080,
+    "y": 3840,
     "wires": [
       [
         "8061fe74.9a5a5"
@@ -23981,7 +23983,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 400,
-    "y": 2080,
+    "y": 3840,
     "wires": [
       [
         "1cfa4796.477008"
@@ -24002,7 +24004,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 630,
-    "y": 2080,
+    "y": 3840,
     "wires": []
   },
   {
@@ -24028,7 +24030,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 150,
-    "y": 2120,
+    "y": 3880,
     "wires": [
       [
         "b0d3e9c0.43dbe8"
@@ -24046,7 +24048,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 360,
-    "y": 2120,
+    "y": 3880,
     "wires": [
       [
         "2e9dcc24.cf0214"
@@ -24067,7 +24069,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 590,
-    "y": 2120,
+    "y": 3880,
     "wires": []
   },
   {
@@ -24093,7 +24095,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 150,
-    "y": 2160,
+    "y": 3920,
     "wires": [
       [
         "4134c7e3.1d5188"
@@ -24111,7 +24113,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 380,
-    "y": 2160,
+    "y": 3920,
     "wires": [
       [
         "14e01a8d.2fa305"
@@ -24132,7 +24134,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 610,
-    "y": 2160,
+    "y": 3920,
     "wires": []
   },
   {
@@ -24158,7 +24160,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 130,
-    "y": 2200,
+    "y": 3960,
     "wires": [
       [
         "5589449a.8b4e3c"
@@ -24176,7 +24178,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 320,
-    "y": 2200,
+    "y": 3960,
     "wires": [
       [
         "76081ede.30acb"
@@ -24197,7 +24199,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 570,
-    "y": 2200,
+    "y": 3960,
     "wires": []
   },
   {
@@ -24223,7 +24225,7 @@
     "onceDelay": 0.1,
     "topic": "",
     "x": 130,
-    "y": 2240,
+    "y": 4000,
     "wires": [
       [
         "4687d391.14234c"
@@ -24241,7 +24243,7 @@
     "fromBlock": "",
     "toBlock": "",
     "x": 320,
-    "y": 2240,
+    "y": 4000,
     "wires": [
       [
         "68eda1ae.28f77"
@@ -24262,7 +24264,7 @@
     "statusVal": "",
     "statusType": "auto",
     "x": 570,
-    "y": 2240,
+    "y": 4000,
     "wires": []
   },
   {
@@ -24453,5 +24455,2005 @@
         "67c1ea58.f47a04"
       ]
     ]
+  },
+  {
+    "id": "5f932bea.2a1c14",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (Empty Filters)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 320,
+    "y": 1700,
+    "wires": [
+      [
+        "a472e9a1.c8ba18",
+        "9c4c32b6.7d069"
+      ]
+    ]
+  },
+  {
+    "id": "2b576ea1.5371f2",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 1700,
+    "wires": [
+      [
+        "5f932bea.2a1c14"
+      ]
+    ]
+  },
+  {
+    "id": "a472e9a1.c8ba18",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 1680,
+    "wires": []
+  },
+  {
+    "id": "7d734436.e17d5c",
+    "type": "comment",
+    "z": "8c1696ec.dcc668",
+    "name": "Static Filter Results (From)",
+    "info": "",
+    "x": 150,
+    "y": 1660,
+    "wires": []
+  },
+  {
+    "id": "9c4c32b6.7d069",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 610,
+    "y": 1720,
+    "wires": [
+      [
+        "50ef1d7.17797e4"
+      ]
+    ]
+  },
+  {
+    "id": "50ef1d7.17797e4",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 750,
+    "y": 1720,
+    "wires": []
+  },
+  {
+    "id": "490c202b.5424c",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (From Account 1)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x89a47029b7168a240BD49bd446F79cee6cad11D4",
+    "filterTo": "",
+    "x": 330,
+    "y": 1780,
+    "wires": [
+      [
+        "874f936f.cd2a9",
+        "d4e5e147.9f156"
+      ]
+    ]
+  },
+  {
+    "id": "79e9963e.a4a9b8",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 1780,
+    "wires": [
+      [
+        "490c202b.5424c"
+      ]
+    ]
+  },
+  {
+    "id": "874f936f.cd2a9",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 1760,
+    "wires": []
+  },
+  {
+    "id": "d4e5e147.9f156",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 610,
+    "y": 1800,
+    "wires": [
+      [
+        "f6160da5.ca7f5"
+      ]
+    ]
+  },
+  {
+    "id": "f6160da5.ca7f5",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 750,
+    "y": 1800,
+    "wires": []
+  },
+  {
+    "id": "4c8667a1.bdb908",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (From Account 1 Lower Case)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x89a47029b7168a240bd49bd446f79cee6cad11d4",
+    "filterTo": "",
+    "x": 370,
+    "y": 1860,
+    "wires": [
+      [
+        "6d55222.eda08dc",
+        "1ca60282.984fcd"
+      ]
+    ]
+  },
+  {
+    "id": "5aa90473.35b9bc",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 1860,
+    "wires": [
+      [
+        "4c8667a1.bdb908"
+      ]
+    ]
+  },
+  {
+    "id": "6d55222.eda08dc",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 710,
+    "y": 1840,
+    "wires": []
+  },
+  {
+    "id": "1ca60282.984fcd",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 670,
+    "y": 1880,
+    "wires": [
+      [
+        "2ae6fa62.0068f6"
+      ]
+    ]
+  },
+  {
+    "id": "2ae6fa62.0068f6",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 810,
+    "y": 1880,
+    "wires": []
+  },
+  {
+    "id": "2ca7e45f.8f20ec",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (From Account 1 Upper Case)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x89A47029B7168A240BD49BD446F79CEE6CAD11D4",
+    "filterTo": "",
+    "x": 370,
+    "y": 1940,
+    "wires": [
+      [
+        "2a8d74da.01137c",
+        "ce27311c.5be54"
+      ]
+    ]
+  },
+  {
+    "id": "6abf63e8.d9216c",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 1940,
+    "wires": [
+      [
+        "2ca7e45f.8f20ec"
+      ]
+    ]
+  },
+  {
+    "id": "2a8d74da.01137c",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 710,
+    "y": 1920,
+    "wires": []
+  },
+  {
+    "id": "ce27311c.5be54",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 670,
+    "y": 1960,
+    "wires": [
+      [
+        "753d2f23.b8f3d"
+      ]
+    ]
+  },
+  {
+    "id": "753d2f23.b8f3d",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 810,
+    "y": 1960,
+    "wires": []
+  },
+  {
+    "id": "43775dd1.ae92a4",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (From Account 1 or 2)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x89a47029b7168a240bd49bd446f79cee6cad11d4, 0x037BB274D93F4DB069AC961D653A807E4E7C5A48",
+    "filterTo": "",
+    "x": 350,
+    "y": 2020,
+    "wires": [
+      [
+        "60fa8579.d0028c",
+        "e0398a3f.cd37a8"
+      ]
+    ]
+  },
+  {
+    "id": "9f15c836.6de768",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2020,
+    "wires": [
+      [
+        "43775dd1.ae92a4"
+      ]
+    ]
+  },
+  {
+    "id": "60fa8579.d0028c",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 710,
+    "y": 2000,
+    "wires": []
+  },
+  {
+    "id": "e0398a3f.cd37a8",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 670,
+    "y": 2040,
+    "wires": [
+      [
+        "410fbf84.58d17"
+      ]
+    ]
+  },
+  {
+    "id": "410fbf84.58d17",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 810,
+    "y": 2040,
+    "wires": []
+  },
+  {
+    "id": "dcfb6c36.a146a",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (To TestToken)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "0x725B44f4FFc1d02c91993f8105028Bb351F0b486",
+    "x": 320,
+    "y": 2200,
+    "wires": [
+      [
+        "262983f.4cd037c",
+        "68cef956.bbf7e8"
+      ]
+    ]
+  },
+  {
+    "id": "c1be63f1.ea044",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2200,
+    "wires": [
+      [
+        "dcfb6c36.a146a"
+      ]
+    ]
+  },
+  {
+    "id": "262983f.4cd037c",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 2180,
+    "wires": []
+  },
+  {
+    "id": "68cef956.bbf7e8",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract To",
+    "func": "let to = [];\nmsg.payload.forEach(result => to.push(result.transaction.to));\nmsg.payload = to;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 600,
+    "y": 2220,
+    "wires": [
+      [
+        "6d8c380e.d34c18"
+      ]
+    ]
+  },
+  {
+    "id": "6d8c380e.d34c18",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 730,
+    "y": 2220,
+    "wires": []
+  },
+  {
+    "id": "ac399d29.9eac3",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (To Counter Lower Case)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "0xe7a712a499a3fcecca422059a0017e62aef79255",
+    "x": 360,
+    "y": 2280,
+    "wires": [
+      [
+        "f1008d99.104d4",
+        "7a4d4e36.6e699"
+      ]
+    ]
+  },
+  {
+    "id": "91b9a8b9.923e78",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2280,
+    "wires": [
+      [
+        "ac399d29.9eac3"
+      ]
+    ]
+  },
+  {
+    "id": "f1008d99.104d4",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 2260,
+    "wires": []
+  },
+  {
+    "id": "7a4d4e36.6e699",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract To",
+    "func": "let to = [];\nmsg.payload.forEach(result => to.push(result.transaction.to));\nmsg.payload = to;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 640,
+    "y": 2300,
+    "wires": [
+      [
+        "39721765.45b0c8"
+      ]
+    ]
+  },
+  {
+    "id": "39721765.45b0c8",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 770,
+    "y": 2300,
+    "wires": []
+  },
+  {
+    "id": "3c2ac52e.eb318a",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (To Test Token or Counter)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "0x725B44F4FFC1D02C91993F8105028BB351F0B486, 0xE7A712A499A3fCECCA422059A0017E62AEF79255",
+    "x": 360,
+    "y": 2360,
+    "wires": [
+      [
+        "9c42e63a.7052d8",
+        "318ba222.1d6ffe"
+      ]
+    ]
+  },
+  {
+    "id": "bd6e297a.91c148",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2360,
+    "wires": [
+      [
+        "3c2ac52e.eb318a"
+      ]
+    ]
+  },
+  {
+    "id": "9c42e63a.7052d8",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 2340,
+    "wires": []
+  },
+  {
+    "id": "318ba222.1d6ffe",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract To",
+    "func": "let to = [];\nmsg.payload.forEach(result => to.push(result.transaction.to));\nmsg.payload = to;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 640,
+    "y": 2380,
+    "wires": [
+      [
+        "1abb6d6f.ca43c3"
+      ]
+    ]
+  },
+  {
+    "id": "1abb6d6f.ca43c3",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 770,
+    "y": 2380,
+    "wires": []
+  },
+  {
+    "id": "a8907567.32e3a8",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (Empty Filters)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 320,
+    "y": 2120,
+    "wires": [
+      [
+        "ab58855b.dd59a8",
+        "15f6b757.b3f149"
+      ]
+    ]
+  },
+  {
+    "id": "ae0caa42.264148",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2120,
+    "wires": [
+      [
+        "a8907567.32e3a8"
+      ]
+    ]
+  },
+  {
+    "id": "ab58855b.dd59a8",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 2100,
+    "wires": []
+  },
+  {
+    "id": "3e732477.0fa0ac",
+    "type": "comment",
+    "z": "8c1696ec.dcc668",
+    "name": "Static Filter Results (To)",
+    "info": "",
+    "x": 140,
+    "y": 2080,
+    "wires": []
+  },
+  {
+    "id": "15f6b757.b3f149",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract To",
+    "func": "let to = [];\nmsg.payload.forEach(result => to.push(result.transaction.to));\nmsg.payload = to;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 600,
+    "y": 2140,
+    "wires": [
+      [
+        "9cf4f38a.8092d"
+      ]
+    ]
+  },
+  {
+    "id": "9cf4f38a.8092d",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 730,
+    "y": 2140,
+    "wires": []
+  },
+  {
+    "id": "cd9c2451.694518",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (Empty Filters)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 320,
+    "y": 2480,
+    "wires": [
+      [
+        "acaceea9.4e604",
+        "4b87c20d.a5fd5c"
+      ]
+    ]
+  },
+  {
+    "id": "354d3007.c76c3",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2480,
+    "wires": [
+      [
+        "cd9c2451.694518"
+      ]
+    ]
+  },
+  {
+    "id": "acaceea9.4e604",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 2460,
+    "wires": []
+  },
+  {
+    "id": "e153c8f1.836138",
+    "type": "comment",
+    "z": "8c1696ec.dcc668",
+    "name": "Static Filter Results (From and To)",
+    "info": "",
+    "x": 180,
+    "y": 2440,
+    "wires": []
+  },
+  {
+    "id": "4b87c20d.a5fd5c",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From and To",
+    "func": "let fromAndTo = [];\nmsg.payload.forEach(result => fromAndTo.push(\n    {\n        from: result.transaction.from,\n        to: result.transaction.to\n    }));\nmsg.payload = fromAndTo;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 640,
+    "y": 2500,
+    "wires": [
+      [
+        "e8cb5e84.5536a"
+      ]
+    ]
+  },
+  {
+    "id": "e8cb5e84.5536a",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From and To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 830,
+    "y": 2500,
+    "wires": []
+  },
+  {
+    "id": "c907d1e6.8c3c4",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (Account 1 to TestToken)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x89a47029b7168a240BD49bd446F79cee6cad11D4",
+    "filterTo": "0x725B44f4FFc1d02c91993f8105028Bb351F0b486",
+    "x": 360,
+    "y": 2560,
+    "wires": [
+      [
+        "72a7d34c.18833c",
+        "9eb367e5.444918"
+      ]
+    ]
+  },
+  {
+    "id": "1e65fc90.e80a53",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2560,
+    "wires": [
+      [
+        "c907d1e6.8c3c4"
+      ]
+    ]
+  },
+  {
+    "id": "72a7d34c.18833c",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 2540,
+    "wires": []
+  },
+  {
+    "id": "9eb367e5.444918",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From and To",
+    "func": "let fromAndTo = [];\nmsg.payload.forEach(result => fromAndTo.push(\n    {\n        from: result.transaction.from,\n        to: result.transaction.to\n    }));\nmsg.payload = fromAndTo;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 680,
+    "y": 2580,
+    "wires": [
+      [
+        "6355651f.1ff9cc"
+      ]
+    ]
+  },
+  {
+    "id": "6355651f.1ff9cc",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From and To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 870,
+    "y": 2580,
+    "wires": []
+  },
+  {
+    "id": "f034ba32.142ea8",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (Account 1 to Counter)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x89a47029b7168a240BD49bd446F79cee6cad11D4",
+    "filterTo": "0xE7A712A499a3fCeCca422059A0017E62aEf79255",
+    "x": 350,
+    "y": 2640,
+    "wires": [
+      [
+        "268efa6b.bca426",
+        "4a77511f.19bc5"
+      ]
+    ]
+  },
+  {
+    "id": "e3cbd009.e18e3",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2640,
+    "wires": [
+      [
+        "f034ba32.142ea8"
+      ]
+    ]
+  },
+  {
+    "id": "268efa6b.bca426",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 2620,
+    "wires": []
+  },
+  {
+    "id": "4a77511f.19bc5",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From and To",
+    "func": "let fromAndTo = [];\nmsg.payload.forEach(result => fromAndTo.push(\n    {\n        from: result.transaction.from,\n        to: result.transaction.to\n    }));\nmsg.payload = fromAndTo;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 680,
+    "y": 2660,
+    "wires": [
+      [
+        "8aecb1cc.9f6cf"
+      ]
+    ]
+  },
+  {
+    "id": "8aecb1cc.9f6cf",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From and To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 870,
+    "y": 2660,
+    "wires": []
+  },
+  {
+    "id": "dcc2b112.63d93",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts (Account 2 to Counter)",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "0x037bB274D93f4Db069AC961d653a807E4E7c5A48",
+    "filterTo": "0xE7A712A499a3fCeCca422059A0017E62aEf79255",
+    "x": 350,
+    "y": 2720,
+    "wires": [
+      [
+        "abb3c38b.0f69f",
+        "961de11f.6facf"
+      ]
+    ]
+  },
+  {
+    "id": "b22ccb18.7eefa8",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Trigger",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 110,
+    "y": 2720,
+    "wires": [
+      [
+        "dcc2b112.63d93"
+      ]
+    ]
+  },
+  {
+    "id": "abb3c38b.0f69f",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 690,
+    "y": 2700,
+    "wires": []
+  },
+  {
+    "id": "961de11f.6facf",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From and To",
+    "func": "let fromAndTo = [];\nmsg.payload.forEach(result => fromAndTo.push(\n    {\n        from: result.transaction.from,\n        to: result.transaction.to\n    }));\nmsg.payload = fromAndTo;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 680,
+    "y": 2740,
+    "wires": [
+      [
+        "22fd323f.831f7e"
+      ]
+    ]
+  },
+  {
+    "id": "22fd323f.831f7e",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From and To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 870,
+    "y": 2740,
+    "wires": []
+  },
+  {
+    "id": "e1ef91f.d5e957",
+    "type": "comment",
+    "z": "8c1696ec.dcc668",
+    "name": "Dynamic Filter Results (From)",
+    "info": "",
+    "x": 160,
+    "y": 2820,
+    "wires": []
+  },
+  {
+    "id": "482657d9.459f98",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 340,
+    "y": 2860,
+    "wires": [
+      [
+        "fb07d714.0c68d8",
+        "42f9b502.750c8c"
+      ]
+    ]
+  },
+  {
+    "id": "3922001e.6b6fe",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "From Account 1",
+    "props": [
+      {
+        "p": "filterFrom",
+        "v": "0x89a47029b7168a240BD49bd446F79cee6cad11D4",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 140,
+    "y": 2860,
+    "wires": [
+      [
+        "482657d9.459f98"
+      ]
+    ]
+  },
+  {
+    "id": "fb07d714.0c68d8",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 2840,
+    "wires": []
+  },
+  {
+    "id": "42f9b502.750c8c",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 610,
+    "y": 2880,
+    "wires": [
+      [
+        "6b8e4da5.755864"
+      ]
+    ]
+  },
+  {
+    "id": "6b8e4da5.755864",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 750,
+    "y": 2880,
+    "wires": []
+  },
+  {
+    "id": "85a96789.477078",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 360,
+    "y": 2940,
+    "wires": [
+      [
+        "44a30b9e.cc7654",
+        "26bc12d9.1476ce"
+      ]
+    ]
+  },
+  {
+    "id": "e02a575.da3a3a8",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": " From Account 1 or 2",
+    "props": [
+      {
+        "p": "filterFrom",
+        "v": "[\"0x89a47029b7168a240bd49bd446f79cee6cad11d4\", \"0x037BB274D93F4DB069AC961D653A807E4E7C5A48\"]",
+        "vt": "json"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 2940,
+    "wires": [
+      [
+        "85a96789.477078"
+      ]
+    ]
+  },
+  {
+    "id": "44a30b9e.cc7654",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 630,
+    "y": 2920,
+    "wires": []
+  },
+  {
+    "id": "26bc12d9.1476ce",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From",
+    "func": "let from = [];\nmsg.payload.forEach(result => from.push(result.transaction.from));\nmsg.payload =  from;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 590,
+    "y": 2960,
+    "wires": [
+      [
+        "8e19efd8.7f754"
+      ]
+    ]
+  },
+  {
+    "id": "8e19efd8.7f754",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 730,
+    "y": 2960,
+    "wires": []
+  },
+  {
+    "id": "19dfb3e4.79f06c",
+    "type": "comment",
+    "z": "8c1696ec.dcc668",
+    "name": "Dynamic Filter Results (To)",
+    "info": "",
+    "x": 150,
+    "y": 3020,
+    "wires": []
+  },
+  {
+    "id": "869689d8.9465c8",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 320,
+    "y": 3060,
+    "wires": [
+      [
+        "e05d359d.26f8c8",
+        "9dd667d2.5b9e38"
+      ]
+    ]
+  },
+  {
+    "id": "e07bd387.a427c",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "To TestToken",
+    "props": [
+      {
+        "p": "filterTo",
+        "v": "0x725B44f4FFc1d02c91993f8105028Bb351F0b486",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 130,
+    "y": 3060,
+    "wires": [
+      [
+        "869689d8.9465c8"
+      ]
+    ]
+  },
+  {
+    "id": "e05d359d.26f8c8",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 590,
+    "y": 3040,
+    "wires": []
+  },
+  {
+    "id": "9dd667d2.5b9e38",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract To",
+    "func": "let to = [];\nmsg.payload.forEach(result => to.push(result.transaction.to));\nmsg.payload = to;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 540,
+    "y": 3080,
+    "wires": [
+      [
+        "38141a8c.06d826"
+      ]
+    ]
+  },
+  {
+    "id": "38141a8c.06d826",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 670,
+    "y": 3080,
+    "wires": []
+  },
+  {
+    "id": "9051f7fd.d35de8",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 400,
+    "y": 3140,
+    "wires": [
+      [
+        "e20bdf1.314fd2",
+        "6ab29a06.8e8284"
+      ]
+    ]
+  },
+  {
+    "id": "666e8942.2fb1c8",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "To Test Token or Counter",
+    "props": [
+      {
+        "p": "filterTo",
+        "v": "[\"0x725B44F4FFC1D02C91993F8105028BB351F0B486\", \"0xE7A712A499A3fCECCA422059A0017E62AEF79255\"]",
+        "vt": "json"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 170,
+    "y": 3140,
+    "wires": [
+      [
+        "9051f7fd.d35de8"
+      ]
+    ]
+  },
+  {
+    "id": "e20bdf1.314fd2",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 3120,
+    "wires": []
+  },
+  {
+    "id": "6ab29a06.8e8284",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract To",
+    "func": "let to = [];\nmsg.payload.forEach(result => to.push(result.transaction.to));\nmsg.payload = to;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 600,
+    "y": 3160,
+    "wires": [
+      [
+        "b6fe4da5.21b1b"
+      ]
+    ]
+  },
+  {
+    "id": "b6fe4da5.21b1b",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 730,
+    "y": 3160,
+    "wires": []
+  },
+  {
+    "id": "7bac0d32.928a14",
+    "type": "comment",
+    "z": "8c1696ec.dcc668",
+    "name": "Dynamic Filter Results (From and To)",
+    "info": "",
+    "x": 190,
+    "y": 3220,
+    "wires": []
+  },
+  {
+    "id": "979a5f90.bb61f",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 380,
+    "y": 3260,
+    "wires": [
+      [
+        "1aebfad1.322b95",
+        "b5f94094.d5ab5"
+      ]
+    ]
+  },
+  {
+    "id": "e55717d3.fec8f8",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Account 1 to Counter",
+    "props": [
+      {
+        "p": "filterFrom",
+        "v": "0x89a47029b7168a240BD49bd446F79cee6cad11D4",
+        "vt": "str"
+      },
+      {
+        "p": "filterTo",
+        "v": "0xE7A712A499a3fCeCca422059A0017E62aEf79255",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 160,
+    "y": 3260,
+    "wires": [
+      [
+        "979a5f90.bb61f"
+      ]
+    ]
+  },
+  {
+    "id": "1aebfad1.322b95",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 3240,
+    "wires": []
+  },
+  {
+    "id": "b5f94094.d5ab5",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From and To",
+    "func": "let fromAndTo = [];\nmsg.payload.forEach(result => fromAndTo.push(\n    {\n        from: result.transaction.from,\n        to: result.transaction.to\n    }));\nmsg.payload = fromAndTo;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 640,
+    "y": 3280,
+    "wires": [
+      [
+        "8e1ce442.8df658"
+      ]
+    ]
+  },
+  {
+    "id": "8e1ce442.8df658",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From and To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 830,
+    "y": 3280,
+    "wires": []
+  },
+  {
+    "id": "f3227f91.9c6aa",
+    "type": "transaction-reader",
+    "z": "8c1696ec.dcc668",
+    "name": "Get Tx and Receipts",
+    "ethereumClient": "7f0797ac.d3a188",
+    "queryReceipt": true,
+    "getByTxHash": false,
+    "fromBlock": "-9",
+    "toBlock": "latest",
+    "filterFrom": "",
+    "filterTo": "",
+    "x": 380,
+    "y": 3340,
+    "wires": [
+      [
+        "9edf5595.a213e8",
+        "571e0edd.e15e2"
+      ]
+    ]
+  },
+  {
+    "id": "a75d79b5.205c08",
+    "type": "inject",
+    "z": "8c1696ec.dcc668",
+    "name": "Account 2 to Counter",
+    "props": [
+      {
+        "p": "filterFrom",
+        "v": "0x037bB274D93f4Db069AC961d653a807E4E7c5A48",
+        "vt": "str"
+      },
+      {
+        "p": "filterTo",
+        "v": "0xE7A712A499a3fCeCca422059A0017E62aEf79255",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 160,
+    "y": 3340,
+    "wires": [
+      [
+        "f3227f91.9c6aa"
+      ]
+    ]
+  },
+  {
+    "id": "9edf5595.a213e8",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "Queried Tx and Receipts",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 650,
+    "y": 3320,
+    "wires": []
+  },
+  {
+    "id": "571e0edd.e15e2",
+    "type": "function",
+    "z": "8c1696ec.dcc668",
+    "name": "Extract From and To",
+    "func": "let fromAndTo = [];\nmsg.payload.forEach(result => fromAndTo.push(\n    {\n        from: result.transaction.from,\n        to: result.transaction.to\n    }));\nmsg.payload = fromAndTo;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "x": 640,
+    "y": 3360,
+    "wires": [
+      [
+        "80b41693.699e38"
+      ]
+    ]
+  },
+  {
+    "id": "80b41693.699e38",
+    "type": "debug",
+    "z": "8c1696ec.dcc668",
+    "name": "From and To",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 830,
+    "y": 3360,
+    "wires": []
   }
 ]

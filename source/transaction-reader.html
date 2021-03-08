@@ -8,7 +8,9 @@
             queryReceipt: { value: true, required: true },
             getByTxHash: { value: true, required: true },
             fromBlock: { value: "-9", required: false },
-            toBlock: { value: "latest", required: false }
+            toBlock: { value: "latest", required: false },
+            filterFrom: { value: undefined, required: false },
+            filterTo: { value: undefined, required: false }
         },
         inputs: 1,
         outputs: 1,
@@ -65,6 +67,16 @@
             <input type="text" id="node-input-toBlock" placeholder="latest">
             <div class="input-info">for dynamic config leave empty and set msg.toBlock</div>
         </div>
+        <div class="form-row">
+            <label for="node-input-filterFrom"><i class="fa fa-filter"></i> Filter From</label>
+            <input type="text" id="node-input-filterFrom" placeholder="0x89a47029...">
+            <div class="input-info">for dynamic config leave empty and set msg.filterFrom</div>
+        </div>
+        <div class="form-row">
+            <label for="node-input-filterTo"><i class="fa fa-filter"></i> Filter To</label>
+            <input type="text" id="node-input-filterTo" placeholder="0x037bB27...">
+            <div class="input-info">for dynamic config leave empty and set msg.filterTo</div>
+        </div>
     </div>
 </script>
 
@@ -85,6 +97,10 @@
         <dd>(optional) the lower limit of the block number filter.</dd>
         <dt class="optional">To Block <span class="property-type">string</span></dt>
         <dd>(optional) the upper limit of the block number filter.</dd>
+        <dt class="optional">Filter From<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the transactions by sender account.</dd>
+        <dt class="optional">Filter To<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the transactions by recipient account.</dd>
     </dl>
 
     <h3>Inputs</h3>
@@ -95,6 +111,10 @@
         <dd>(optional) the lower limit of the block number filter.</dd>
         <dt class="optional">toBlock <span class="property-type">number | string</span></dt>
         <dd>(optional) the upper limit of the block number filter.</dd>
+        <dt class="optional">filterFrom<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the transactions by sender account.</dd>
+        <dt class="optional">filterTo<span class="property-type">string</span></dt>
+        <dd>(optional) to filter the transactions by recipient account.</dd>
     </dl>
 
     <h3>Outputs</h3>
@@ -107,7 +127,7 @@
 
     <h3>Details</h3>
     <p>
-        The details go here.
+        To be done
     </p>
 
     <h3>References</h3>
