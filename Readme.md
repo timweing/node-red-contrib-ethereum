@@ -1,6 +1,9 @@
 # node-red-contrib-ethereum
 A node palette for interacting with ethereum clients
 
+## Node Documentation
+The documentation of the nodes can be read directly in the node-RED editor by opening the 'help' section. 
+
 ## Installation
 #### Prerequisites
 - Install Node.js : https://nodejs.org/en/download/package-manager/
