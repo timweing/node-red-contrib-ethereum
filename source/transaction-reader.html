@@ -5,7 +5,7 @@
         defaults: {
             name: { value: undefined },
             ethereumClient: { value: "", required: true, type: "ethereum-client" },
-            queryReceipt: { value: true, required: true },
+            queryReceipt: { value: false, required: true },
             getByTxHash: { value: true, required: true },
             fromBlock: { value: "-9", required: false },
             toBlock: { value: "latest", required: false },
@@ -111,23 +111,67 @@
         <dd>(optional) the lower limit of the block number filter.</dd>
         <dt class="optional">toBlock <span class="property-type">number | string</span></dt>
         <dd>(optional) the upper limit of the block number filter.</dd>
-        <dt class="optional">filterFrom<span class="property-type">string</span></dt>
+        <dt class="optional">filterFrom<span class="property-type">string | string array</span></dt>
         <dd>(optional) to filter the transactions by sender account.</dd>
-        <dt class="optional">filterTo<span class="property-type">string</span></dt>
+        <dt class="optional">filterTo<span class="property-type">string | string array</span></dt>
         <dd>(optional) to filter the transactions by recipient account.</dd>
     </dl>
 
     <h3>Outputs</h3>
     <dl class="message-properties">
         <dt>payload <span class="property-type">array</span></dt>
-        <dd>the found transaction(s) and receipt(s).</dd>
+        <dd>the found transaction(s) (and receipt(s)).</dd>
         <dt>summary <span class="property-type">object</span></dt>
         <dd>a summary of all available data regarding the transactions query.</dd>
     </dl>
 
     <h3>Details</h3>
     <p>
-        To be done
+        Querying transactions must always be triggered by an input msg. The node has two modes, one to query a specific
+        transaction by transaction hash and another to collect multiple transactions from a range of blocks, with
+        optional filter criteria. By default the node only queries the transaction data, but when checking the
+        <code>Receipt</code> checkbox, it will also query the receipt data and add it to the output.
+    </p>
+    <p>
+        To query a specific transaction by hash, the <code>By Hash</code> checkbox must be checked and the transaction
+        hash set to <code>msg.payload</code> on the input message. The node will query the ethereum client for this
+        specific transaction. If no transaction with this hash can be found, the <code>msg.payload</code> on the
+        output message will be <code>null</code>.
+    </p>
+    <p>
+        To query multiple transactions, the <code>By Hash</code> checkbox must be unchecked. This enables additional
+        configuration options. A block range must be specified with the options <code>From Block</code> and
+        <code>To Block</code>. The default setting is to query transactions from the latest 10 blocks. The node does
+        not limit the allowed block range, but be aware that the current implementation is not optimized for large block
+        ranges. For each block a request to the ethereum client will be made (n requests) and if the
+        <code>Receipt</code> checkbox is checked, then an additional request is made for every transaction in each block
+        (n * m requests). Especially if you are not using your own ethereum client, querying large block ranges could be
+        an issue as the client could start to reject requests. When you use a public client, choose rather small block
+        ranges and even smaller if you check the <code>Receipt</code> checkbox.
+    </p>
+    <p>
+        To specify the block range, a lower and an upper limit block number must be defined. The limits may be fix
+        block numbers or variables. The possible variables are: 'latest' for the number of the latest mined block or
+        'earliest' for the genesis block. It is also possible to set a negative number as the lower limit, which will
+        form the block range by subtracting this number from the upper limit. E.g. setting <code>From Block</code> to
+        -6 and <code>To Block</code> to 10 will result in a range from block 4 to 10, or setting <code>From Block</code>
+        to -2 and <code>To Block</code> to 'latest' will give the range that includes the three latest blocks.
+    </p>
+    <p>
+        If transactions are queried from a block range, the node optionally can filter the results by sender and/or
+        recipient address (account). The sender address is set in <code>Filter From</code> and the recipient in
+        <code>Filter To</code>. If both are set then the output only contains transactions which satisfy both criteria
+        (logical AND). Both filters can be set with multiple, comma separated addresses. In this case the result
+        contains transaction that satisfy either of those listed addresses (logical OR).
+    </p>
+    <p>
+        The options <code>From Block</code>, <code>To Block</code>, <code>Filter From</code> and
+        <code>Filter To</code> can all be configured dynamically by setting <code>msg.fromBlock</code>,
+        <code>msg.toBlock</code>, <code>msg.filterFrom</code> and <code>msg.filterTo</code>.
+    </p>
+    <p>
+        The <code>msg.summary</code> on the output message contains: The query data (transaction hash or block
+        range and filters) and the query result (transactions or transactions and receipts).
     </p>
 
     <h3>References</h3>
