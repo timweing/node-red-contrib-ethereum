@@ -10,9 +10,9 @@
             senderAccount: { value: "", validate: value => true, type: "sender-account" },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
-            gasLimit: { value: undefined, validate: value => true },
+            gasLimit: { value: undefined},
             usePreviousBlocksGasPrice: { value: true, required: true },
-            gasPrice: { value: undefined, validate: value => true }
+            gasPrice: { value: undefined}
         },
         inputs: 1,
         outputs: 2,

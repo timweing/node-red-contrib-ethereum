@@ -22,9 +22,9 @@
             senderAccount: { value: "", validate: value => true, type: "sender-account" },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
-            gasLimit: { value: undefined, validate: validateGasLimit },
+            gasLimit: { value: undefined },
             usePreviousBlocksGasPrice: { value: true, required: true },
-            gasPrice: { value: undefined, validate: validateGasPrice }
+            gasPrice: { value: undefined }
         },
         inputs: 1,
         outputs: 2,
@@ -35,46 +35,6 @@
         outputLabels: ["transaction hash", "result"],
         oneditprepare: prepareEditDialog
     });
-
-    function validateGasLimit(value) {
-        const inputContractFunction = $("#node-input-contractFunction");
-        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
-        const inputUseEstimatedGasLimit = $("#node-input-useEstimatedGasLimit");
-        if (inputContractFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUseEstimatedGasLimit.length > 0) {
-            // Validation when edit window open.
-            return functionProperties[inputContractFunction.val()].isReadonly ||
-                inputOnlyEstimateGas.is(":checked") ||
-                inputUseEstimatedGasLimit.is(":checked") ||
-                value.length > 0;
-        }
-        else {
-            // Validation when edit window not open.
-            return functionProperties[this.contractFunction].isReadonly ||
-                this.onlyEstimateGas ||
-                this.useEstimatedGasLimit ||
-                value.length > 0;
-        }
-    }
-
-    function validateGasPrice(value) {
-        const inputContractFunction = $("#node-input-contractFunction");
-        const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
-        const inputUsePreviousBlocksGasPrice = $("#node-input-usePreviousBlocksGasPrice");
-        if (inputContractFunction.length > 0 && inputOnlyEstimateGas.length > 0 && inputUsePreviousBlocksGasPrice.length > 0) {
-            // Validation when edit window open.
-            return functionProperties[inputContractFunction.val()].isReadonly ||
-                inputOnlyEstimateGas.is(":checked") ||
-                inputUsePreviousBlocksGasPrice.is(":checked") ||
-                value.length > 0;
-        }
-        else {
-            // Validation when edit window not open.
-            return functionProperties[this.contractFunction].isReadonly ||
-                this.onlyEstimateGas ||
-                this.usePreviousBlocksGasPrice ||
-                value.length > 0;
-        }
-    }
 
     function prepareEditDialog() {
         prepareFunctionArgsRows();
