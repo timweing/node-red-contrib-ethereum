@@ -30,6 +30,7 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 }
                 else {
                     result = await sendTransaction(contractCall, options);
+                    await updateTransactionInSummary(result.transactionHash);
                 }
 
                 triggerResultPort(result);
@@ -76,7 +77,7 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 options.from = senderAccount.address;
                 options.gas = await determineGasLimit();
                 options.gasPrice = await determineGasPrice();
-                return senderAccount.sendTransaction(contractCall, options, triggerTxHashPort);
+                return senderAccount.sendTransaction(contractCall, options, triggerTxPort);
 
                 async function determineGasLimit() {
                     if (config.useEstimatedGasLimit) {
@@ -114,10 +115,30 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 };
             }
 
-            function triggerTxHashPort(txHash) {
-                msg.summary.txHash = txHash;
-                msg.payload = txHash;
-                send([msg, null]);
+            function triggerTxPort(txHash) {
+                if (config.fetchFullTransaction) {
+                    fetchTransaction(txHash).then(transaction => {
+                        msg.summary.transaction = transaction;
+                        msg.payload = transaction;
+                        send([msg, null]);
+                    }).catch(e => node.error(e));
+                }
+                else {
+                    msg.summary.txHash = txHash;
+                    msg.payload = txHash;
+                    send([msg, null]);
+                }
+            }
+
+            async function fetchTransaction(txHash) {
+                const web3 = await smartContract.ethereumClient.getWeb3();
+                return await web3.eth.getTransaction(txHash);
+            }
+
+            async function updateTransactionInSummary(txHash) {
+                if (config.fetchFullTransaction) {
+                    msg.summary.transaction = await fetchTransaction(txHash);
+                }
             }
 
             function triggerResultPort(result) {

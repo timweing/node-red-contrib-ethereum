@@ -12,7 +12,8 @@
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined},
             usePreviousBlocksGasPrice: { value: true, required: true },
-            gasPrice: { value: undefined}
+            gasPrice: { value: undefined},
+            fetchFullTransaction: { value: false, required: true }
         },
         inputs: 1,
         outputs: 2,
@@ -20,13 +21,13 @@
         paletteLabel: "Contract Call",
         label: function() { return this.name || "Contract Call"; },
         inputLabels: "function args",
-        outputLabels: ["transaction hash", "result"],
+        outputLabels: ["transaction", "result"],
         oneditprepare: prepareEditDialog
     });
 
     function prepareEditDialog() {
         prepareTransactionRows();
-        prepareGasRows();
+        prepareExecuteTransactionRows();
         prepareGasLimitRow();
         prepareGasPriceRow();
 
@@ -47,19 +48,19 @@
             }
         }
 
-        function prepareGasRows() {
+        function prepareExecuteTransactionRows() {
             const inputOnlyEstimateGas = $("#node-input-onlyEstimateGas");
-            const divGasRows = $("#gas-rows");
-            updateGasRowsVisibility();
+            const divExecuteTransactionRows = $("#execute-transaction-rows");
+            updateExecuteTransactionRowsVisibility();
             inputOnlyEstimateGas.on("click", () => {
-                updateGasRowsVisibility();
+                updateExecuteTransactionRowsVisibility();
             });
 
-            function updateGasRowsVisibility() {
+            function updateExecuteTransactionRowsVisibility() {
                 if (inputOnlyEstimateGas.is(":checked")) {
-                    divGasRows.hide();
+                    divExecuteTransactionRows.hide();
                 } else {
-                    divGasRows.show();
+                    divExecuteTransactionRows.show();
                 }
             }
         }
@@ -127,7 +128,7 @@
             <label for="node-input-onlyEstimateGas"><i class="fa fa-tint"></i> Gas</label>
             <input type="checkbox" id="node-input-onlyEstimateGas" style="width: auto;"> <span class="checkbox-info">only estimate gas but don't execute transaction</span>
         </div>
-        <div id="gas-rows">
+        <div id="execute-transaction-rows">
             <div class="form-row">
                 <label for="node-input-useEstimatedGasLimit"><i class="fa fa-tint"></i> Gas Limit</label>
                 <input type="checkbox" id="node-input-useEstimatedGasLimit" style="width: auto;"> <span class="checkbox-info">use estimation</span>
@@ -145,6 +146,10 @@
                 <label for="node-input-gasPrice"></label>
                 <input type="text" id="node-input-gasPrice" placeholder="Gas Price"> <span class="text-info">Wei</span>
                 <div class="input-info">for dynamic config leave empty and set msg.gasPrice</div>
+            </div>
+            <div class="form-row">
+                <label for="node-input-fetchFullTransaction"><i class="fa fa-file-o"></i> Fetch Tx</label>
+                <input type="checkbox" id="node-input-fetchFullTransaction" style="width: auto;"> <span class="checkbox-info">fetch the full transaction object once the tx hash is available</span>
             </div>
         </div>
     </div>
@@ -171,6 +176,8 @@
         <dd>the maximum amount of gas willing to pay for the function call.</dd>
         <dt>Gas Price <span class="property-type">string</span></dt>
         <dd>the amount of wei willing to pay per unit of gas.</dd>
+        <dt>Fetch Tx <span class="property-type">boolean</span></dt>
+        <dd>indicates whether to fetch the full transaction object once the transaction hash is available.</dd>
     </dl>
 
     <h3>Inputs</h3>
@@ -187,10 +194,10 @@
 
     <h3>Outputs</h3>
     <ol class="node-ports">
-        <li>Transaction Hash
+        <li>Transaction
             <dl class="message-properties">
-                <dt>payload <span class="property-type">string</span></dt>
-                <dd>the transaction hash, if the function call requires a transaction.</dd>
+                <dt>payload <span class="property-type">string | object</span></dt>
+                <dd>the transaction hash or the full transaction object, if the function call requires a transaction.</dd>
                 <dt>summary <span class="property-type">object</span></dt>
                 <dd>a summary of all available data regarding the function call.</dd>
             </dl>
@@ -226,16 +233,17 @@
         <code>Gas Limit</code> and the <code>Gas Price</code> for the transaction. The <code>Gas Limit</code> can be
         set manually or an estimate can be used, by checking the <code>Gas Limit</code> checkbox. The
         <code>Gas Price</code> can also be set manually or the median gas price from the last few blocks can be used,
-        by checking the <code>Gas Price</code> checkbox. Mode 2 will trigger a message on the transaction hash output
-        port, after the transaction has been sent, containing the transaction hash in the <code>msg.payload</code>.
-        As soon as the transaction has been mined, the result output port emits a message containing the full
+        by checking the <code>Gas Price</code> checkbox. Mode 2 will trigger a message on the transaction output
+        port, after the transaction has been sent, containing the transaction hash or the full transaction object in
+        the <code>msg.payload</code>. The full transaction object is only fetched if the option <code>Fetch Tx</code>
+        is checked. As soon as the transaction has been mined, the result output port emits a message containing the full
         transaction receipt in the <code>msg.payload</code>. Return values of the function are not available from
         outside the blockchain, but if the function emits an event the event data is available as part of the receipt.
     </p>
     <p>
         Mode 3 is not actually executing the function call but only estimating its gas cost. It is selected by checking
         the <code>Gas</code> checkbox. Even though no transaction is sent, a <code>Sender</code> account must be chosen.
-        Depending on the smart contract function, it might have an effect on the gas cost estimate. The transaction hash
+        Depending on the smart contract function, it might have an effect on the gas cost estimate. The transaction
         output port is not triggered. The result output port emits a message containing the estimated amount of gas for
         the function call in the <code>msg.payload</code>.
     </p>
@@ -254,8 +262,8 @@
     </p>
     <p>
         The <code>msg.summary</code> on the output message contains: the function name, the used arguments, the used
-        options (sender, gas limit, gas price etc.) depending on the mode, the transaction hash if available,
-        the result depending on the mode.
+        options (sender, gas limit, gas price etc.) depending on the mode, the transaction hash or full transaction
+        object if available, the result depending on the mode.
     </p>
     <p>
         The node currently does not support 'payable' functions that require the transaction to transfer ether to
