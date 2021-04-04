@@ -18,7 +18,8 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 const contract = await smartContract.getContract();
                 const args = prepareArgs(config, msg, contract);
                 const contractCall = contract.methods[config.contractFunction].apply(null, args);
-                const options = {};
+                const senderAccount = getSenderAccount();
+                const options = { from: senderAccount.address };
                 initializeSummary(args, options);
 
                 let result;
@@ -29,7 +30,7 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                     result = await onlyEstimateGas(contractCall, options);
                 }
                 else {
-                    result = await sendTransaction(contractCall, options);
+                    result = await sendTransaction(contractCall, senderAccount, options);
                     await updateTransactionInSummary(result.transactionHash);
                 }
 
@@ -68,13 +69,10 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
             }
 
             async function onlyEstimateGas(contractCall, options) {
-                options.from = getSenderAccount().address;
                 return contractCall.estimateGas(options);
             }
 
-            async function sendTransaction(contractCall, options) {
-                const senderAccount = getSenderAccount();
-                options.from = senderAccount.address;
+            async function sendTransaction(contractCall, senderAccount, options) {
                 options.gas = await determineGasLimit();
                 options.gasPrice = await determineGasPrice();
                 return senderAccount.sendTransaction(contractCall, options, triggerTxPort);

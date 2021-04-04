@@ -6,8 +6,8 @@
             name: { value: undefined },
             smartContract: { value: "", required: true, type: "smart-contract" },
             contractFunction: { value: undefined, required: true },
-            readonlyFunction: { value: false, required: true },
             senderAccount: { value: "", validate: value => true, type: "sender-account" },
+            readonlyFunction: { value: false, required: true },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined},
@@ -115,15 +115,15 @@
         <input type="text" id="node-input-contractFunction" placeholder="Contract Function">
     </div>
     <div class="form-row">
+        <label for="node-input-senderAccount"><i class="fa fa-user-circle-o"></i> Sender</label>
+        <input type="text" id="node-input-senderAccount" placeholder="Sender Account">
+        <div class="input-info">for dynamic config select none and set msg.senderAccount</div>
+    </div>
+    <div class="form-row">
         <label for="node-input-readonlyFunction"><i class="fa fa-eye"></i> Read-only</label>
         <input type="checkbox" style="width: auto;" id="node-input-readonlyFunction"> <span class="checkbox-info">function is marked 'view', 'pure' or 'constant'</span>
     </div>
     <div id="transaction-rows">
-        <div class="form-row">
-            <label for="node-input-senderAccount"><i class="fa fa-user-circle-o"></i> Sender</label>
-            <input type="text" id="node-input-senderAccount" placeholder="Sender Account">
-            <div class="input-info">for dynamic config select none and set msg.senderAccount</div>
-        </div>
         <div class="form-row">
             <label for="node-input-onlyEstimateGas"><i class="fa fa-tint"></i> Gas</label>
             <input type="checkbox" id="node-input-onlyEstimateGas" style="width: auto;"> <span class="checkbox-info">only estimate gas but don't execute transaction</span>
@@ -166,10 +166,10 @@
         <dd>the smart contract on which to call a function.</dd>
         <dt>Function <span class="property-type">string</span></dt>
         <dd>the name of the smart contract function to call.</dd>
+        <dt>Sender <span class="property-type">sender-account</span></dt>
+        <dd>the ethereum account to make the function call from.</dd>
         <dt>Read-only <span class="property-type">boolean</span></dt>
         <dd>indicates whether the function is read-only or state changing.</dd>
-        <dt>Sender <span class="property-type">sender-account</span></dt>
-        <dd>the ethereum account to send the transaction from.</dd>
         <dt>Gas <span class="property-type">boolean</span></dt>
         <dd>indicates whether to execute the function call or only to estimate it's gas cost.</dd>
         <dt>Gas Limit <span class="property-type">string</span></dt>
@@ -185,7 +185,7 @@
         <dt>payload <span class="property-type">(primitive | object) | array</span></dt>
         <dd>the argument(s) of the function call.</dd>
         <dt class="optional">senderAccount <span class="property-type">string</span></dt>
-        <dd>(optional) the name of the ethereum account to send the transaction from.</dd>
+        <dd>(optional) the ethereum account to make the function call from.</dd>
         <dt class="optional">gasLimit <span class="property-type">string | number</span></dt>
         <dd>(optional) the maximum amount of gas willing to pay for the function call.</dd>
         <dt class="optional">gasPrice <span class="property-type">string | number</span></dt>
@@ -223,29 +223,28 @@
         Mode 1 is selected by checking the <code>Readonly</code> checkbox. Since there is not transaction, the
         transaction hash output port is not triggered. The result output port emits a message containing the return
         value of the function in the <code>msg.payload</code>. Depending on the function interface, this can be a
-        primitive value or an object.
+        primitive value or an object. Even though no transaction is sent, a <code>Sender</code> account must be
+        configured because non state changing smart contract functions could include checks of the sender address.
     </p>
     <p>
         Mode 2 calls a smart contract function that changes the state on the blockchain. These function calls require
         to send a transaction from an ethereum account and cost a certain amount of gas. Mode 2 is selected by leaving
-        the <code>Readonly</code> and <code>Gas</code> checkboxes unchecked. Because a transaction is sent, a
-        <code>Sender</code> account must be chosen, which will pay the gas cost. This mode also allows to set the
-        <code>Gas Limit</code> and the <code>Gas Price</code> for the transaction. The <code>Gas Limit</code> can be
-        set manually or an estimate can be used, by checking the <code>Gas Limit</code> checkbox. The
-        <code>Gas Price</code> can also be set manually or the median gas price from the last few blocks can be used,
-        by checking the <code>Gas Price</code> checkbox. Mode 2 will trigger a message on the transaction output
-        port, after the transaction has been sent, containing the transaction hash or the full transaction object in
-        the <code>msg.payload</code>. The full transaction object is only fetched if the option <code>Fetch Tx</code>
-        is checked. As soon as the transaction has been mined, the result output port emits a message containing the full
-        transaction receipt in the <code>msg.payload</code>. Return values of the function are not available from
-        outside the blockchain, but if the function emits an event the event data is available as part of the receipt.
+        the <code>Readonly</code> and <code>Gas</code> checkboxes unchecked. The gas cost of the transaction will be
+        paid by the configured <code>Sender</code> account. This mode also allows to set the <code>Gas Limit</code> and
+        the <code>Gas Price</code> for the transaction. The <code>Gas Limit</code> can be set manually or an estimate
+        can be used, by checking the <code>Gas Limit</code> checkbox. The <code>Gas Price</code> can also be set
+        manually or the median gas price from the last few blocks can be used, by checking the <code>Gas Price</code>
+        checkbox. Mode 2 will trigger a message on the transaction output port, after the transaction has been sent,
+        containing the transaction hash or the full transaction object in the <code>msg.payload</code>. The full
+        transaction object is only fetched if the option <code>Fetch Tx</code> is checked. As soon as the transaction
+        has been mined, the result output port emits a message containing the full transaction receipt in the
+        <code>msg.payload</code>. Return values of the function are not available from outside the blockchain, but if
+        the function emits an event the event data is available as part of the receipt.
     </p>
     <p>
         Mode 3 is not actually executing the function call but only estimating its gas cost. It is selected by checking
-        the <code>Gas</code> checkbox. Even though no transaction is sent, a <code>Sender</code> account must be chosen.
-        Depending on the smart contract function, it might have an effect on the gas cost estimate. The transaction
-        output port is not triggered. The result output port emits a message containing the estimated amount of gas for
-        the function call in the <code>msg.payload</code>.
+        the <code>Gas</code> checkbox. The transaction output port is not triggered. The result output port emits a
+        message containing the estimated amount of gas for the function call in the <code>msg.payload</code>.
     </p>
     <p>
         The arguments for the smart contract function are passed in the <code>msg.payload</code>. If the function does

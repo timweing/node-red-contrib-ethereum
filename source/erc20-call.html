@@ -16,10 +16,10 @@
             name: { value: undefined },
             smartContract: { value: "", required: true, type: "smart-contract" },
             contractFunction: { value: "totalSupply", required: true },
+            senderAccount: { value: "", validate: value => true, type: "sender-account" },
             fromAddress: { value: undefined, required: false },
             toAddress: { value: undefined, required: false },
             tokenAmount: { value: undefined, required: false },
-            senderAccount: { value: "", validate: value => true, type: "sender-account" },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined },
@@ -152,6 +152,11 @@
             <option value="transferFrom">Transfer From To</option>
         </select>
     </div>
+    <div class="form-row">
+        <label for="node-input-senderAccount"><i class="fa fa-user-circle-o"></i> Sender</label>
+        <input type="text" id="node-input-senderAccount" placeholder="Sender Account">
+        <div class="input-info">for dynamic config select none and set msg.senderAccount</div>
+    </div>
     <div id="fromAddress-row" class="form-row">
         <label for="node-input-fromAddress"><i class="fa fa-map-marker"></i> From</label>
         <input type="text" id="node-input-fromAddress" placeholder="0x89a47029...">
@@ -168,11 +173,6 @@
         <div class="input-info">for dynamic config leave empty and set msg.tokenAmount</div>
     </div>
     <div id="transaction-rows">
-        <div class="form-row">
-            <label for="node-input-senderAccount"><i class="fa fa-user-circle-o"></i> Sender</label>
-            <input type="text" id="node-input-senderAccount" placeholder="Sender Account">
-            <div class="input-info">for dynamic config select none and set msg.senderAccount</div>
-        </div>
         <div class="form-row">
             <label for="node-input-onlyEstimateGas"><i class="fa fa-tint"></i> Gas</label>
             <input type="checkbox" id="node-input-onlyEstimateGas" style="width: auto;"> <span class="checkbox-info">only estimate gas but don't execute transaction</span>
@@ -215,14 +215,14 @@
         <dd>the ERC20 token contract on which to call a function.</dd>
         <dt>Function <span class="property-type">enumeration</span></dt>
         <dd>the ERC20 function to call.</dd>
+        <dt>Sender <span class="property-type">sender-account</span></dt>
+        <dd>the ethereum account to make the function call from.</dd>
         <dt>From <span class="property-type">string</span></dt>
         <dd>the 'from address' argument of the function call.</dd>
         <dt>To <span class="property-type">string</span></dt>
         <dd>the 'to address' argument of the function call.</dd>
         <dt>Amount <span class="property-type">string</span></dt>
         <dd>the 'token amount' argument of the function call.</dd>
-        <dt>Sender <span class="property-type">sender-account</span></dt>
-        <dd>the ethereum account to send the transaction from.</dd>
         <dt>Gas <span class="property-type">boolean</span></dt>
         <dd>indicates whether to execute the function call or only to estimate it's gas cost.</dd>
         <dt>Gas Limit <span class="property-type">string</span></dt>
@@ -235,14 +235,14 @@
 
     <h3>Inputs</h3>
     <dl class="message-properties">
+        <dt class="optional">senderAccount <span class="property-type">string</span></dt>
+        <dd>(optional) the ethereum account to make the function call from.</dd>
         <dt class="optional">fromAddress <span class="property-type">string</span></dt>
         <dd>(optional) the 'from address' argument of the function call.</dd>
         <dt class="optional">toAddress <span class="property-type">string</span></dt>
         <dd>(optional) the 'to address' argument of the function call.</dd>
         <dt class="optional">tokenAmount <span class="property-type">string | number</span></dt>
         <dd>(optional) the 'token amount' argument of the function call.</dd>
-        <dt class="optional">senderAccount <span class="property-type">string</span></dt>
-        <dd>(optional) the name of the ethereum account to send the transaction from.</dd>
         <dt class="optional">gasLimit <span class="property-type">string | number</span></dt>
         <dd>(optional) the maximum amount of gas willing to pay for the function call.</dd>
         <dt class="optional">gasPrice <span class="property-type">string | number</span></dt>
