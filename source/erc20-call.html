@@ -20,6 +20,7 @@
             fromAddress: { value: undefined, required: false },
             toAddress: { value: undefined, required: false },
             tokenAmount: { value: undefined, required: false },
+            weiTransfer: { value: undefined, required: false },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined },
@@ -169,7 +170,7 @@
     </div>
     <div id="tokenAmount-row" class="form-row">
         <label for="node-input-tokenAmount"><i class="fa fa-database"></i> Amount</label>
-        <input type="text" id="node-input-tokenAmount" placeholder="1000000000000000000">
+        <input type="text" id="node-input-tokenAmount" placeholder="0">
         <div class="input-info">for dynamic config leave empty and set msg.tokenAmount</div>
     </div>
     <div id="transaction-rows">

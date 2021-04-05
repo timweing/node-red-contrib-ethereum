@@ -86,7 +86,7 @@
   {
     "id": "67f38e47.684ad",
     "type": "tab",
-    "label": "Test Payable Function Calls",
+    "label": "Test Payable Function Call",
     "disabled": false,
     "info": ""
   },
@@ -12622,6 +12622,7 @@
     "contractFunction": "increment",
     "senderAccount": "",
     "readonlyFunction": false,
+    "weiTransfer": "",
     "onlyEstimateGas": false,
     "useEstimatedGasLimit": true,
     "gasLimit": "",
@@ -21471,6 +21472,7 @@
     "contractFunction": "setMultipleVariables",
     "senderAccount": "b7394dd0.1617a",
     "readonlyFunction": false,
+    "weiTransfer": "",
     "onlyEstimateGas": false,
     "useEstimatedGasLimit": true,
     "gasLimit": "",
@@ -26781,20 +26783,22 @@
     "contractFunction": "getBalance",
     "senderAccount": "",
     "readonlyFunction": true,
+    "weiTransfer": "",
     "onlyEstimateGas": false,
     "useEstimatedGasLimit": true,
     "gasLimit": "",
     "usePreviousBlocksGasPrice": true,
     "gasPrice": "",
     "fetchFullTransaction": false,
-    "x": 310,
-    "y": 260,
+    "x": 390,
+    "y": 280,
     "wires": [
       [
         "6d1f0f68.e6926"
       ],
       [
-        "6d2e2a93.6bc544"
+        "ebf7d7ee.e67208",
+        "68950db3.d2fe54"
       ]
     ]
   },
@@ -26811,15 +26815,15 @@
     "targetType": "msg",
     "statusVal": "",
     "statusType": "auto",
-    "x": 480,
-    "y": 240,
+    "x": 560,
+    "y": 260,
     "wires": []
   },
   {
     "id": "dbda3e6a.d72a2",
     "type": "inject",
     "z": "67f38e47.684ad",
-    "name": "Account 1",
+    "name": "Account 1 (Owner)",
     "props": [
       {
         "p": "senderAccount",
@@ -26836,7 +26840,7 @@
     "once": false,
     "onceDelay": 0.1,
     "topic": "",
-    "x": 120,
+    "x": 150,
     "y": 220,
     "wires": [
       [
@@ -26848,7 +26852,7 @@
     "id": "f302e353.baf94",
     "type": "inject",
     "z": "67f38e47.684ad",
-    "name": "Account 2",
+    "name": "Account 2  (Owner)",
     "props": [
       {
         "p": "senderAccount",
@@ -26865,7 +26869,7 @@
     "once": false,
     "onceDelay": 0.1,
     "topic": "",
-    "x": 120,
+    "x": 150,
     "y": 260,
     "wires": [
       [
@@ -26877,7 +26881,7 @@
     "id": "e3a0c4b3.af9e48",
     "type": "inject",
     "z": "67f38e47.684ad",
-    "name": "Account 3",
+    "name": "Account 3  (Owner)",
     "props": [
       {
         "p": "senderAccount",
@@ -26894,7 +26898,7 @@
     "once": false,
     "onceDelay": 0.1,
     "topic": "",
-    "x": 120,
+    "x": 150,
     "y": 300,
     "wires": [
       [
@@ -26915,15 +26919,15 @@
     "targetType": "msg",
     "statusVal": "",
     "statusType": "auto",
-    "x": 500,
-    "y": 280,
+    "x": 740,
+    "y": 300,
     "wires": []
   },
   {
     "id": "8f663395.10385",
     "type": "inject",
     "z": "67f38e47.684ad",
-    "name": "Account 4",
+    "name": "Account 4  (Not Owner)",
     "props": [
       {
         "p": "senderAccount",
@@ -26940,7 +26944,7 @@
     "once": false,
     "onceDelay": 0.1,
     "topic": "",
-    "x": 120,
+    "x": 160,
     "y": 340,
     "wires": [
       [
@@ -26994,10 +26998,784 @@
     "id": "8b80cfeb.72bf2",
     "type": "comment",
     "z": "67f38e47.684ad",
-    "name": "Shared Balance",
+    "name": "Read Shared Balance",
+    "info": "",
+    "x": 160,
+    "y": 180,
+    "wires": []
+  },
+  {
+    "id": "2b644a63.7b1256",
+    "type": "contract-call",
+    "z": "67f38e47.684ad",
+    "name": "Deposit (1 Ether)",
+    "smartContract": "b0074f66.562fa",
+    "contractFunction": "deposit",
+    "senderAccount": "",
+    "readonlyFunction": false,
+    "weiTransfer": "1000000000000000000",
+    "onlyEstimateGas": false,
+    "useEstimatedGasLimit": true,
+    "gasLimit": "",
+    "usePreviousBlocksGasPrice": true,
+    "gasPrice": "",
+    "fetchFullTransaction": true,
+    "x": 410,
+    "y": 520,
+    "wires": [
+      [
+        "f0b0c91c.d4eaf8"
+      ],
+      [
+        "7cc4c019.e7594",
+        "e556b90b.6be0b8"
+      ]
+    ]
+  },
+  {
+    "id": "f0b0c91c.d4eaf8",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Transaction",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 610,
+    "y": 500,
+    "wires": []
+  },
+  {
+    "id": "7cc4c019.e7594",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Receipt",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 600,
+    "y": 540,
+    "wires": []
+  },
+  {
+    "id": "df003568.ac9df8",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 1 (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 1",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 460,
+    "wires": [
+      [
+        "2b644a63.7b1256"
+      ]
+    ]
+  },
+  {
+    "id": "73061980.8d1098",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 2  (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 2",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 500,
+    "wires": [
+      [
+        "2b644a63.7b1256"
+      ]
+    ]
+  },
+  {
+    "id": "8359c05f.3c1b9",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 3  (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 3",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 540,
+    "wires": [
+      [
+        "2b644a63.7b1256"
+      ]
+    ]
+  },
+  {
+    "id": "d0445c40.67b6c",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 4  (Not Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 4",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 160,
+    "y": 580,
+    "wires": [
+      [
+        "2b644a63.7b1256"
+      ]
+    ]
+  },
+  {
+    "id": "fd76438e.0321f",
+    "type": "comment",
+    "z": "67f38e47.684ad",
+    "name": "Deposit Ether (Static Config)",
+    "info": "",
+    "x": 180,
+    "y": 420,
+    "wires": []
+  },
+  {
+    "id": "1574adde.550fd2",
+    "type": "contract-call",
+    "z": "67f38e47.684ad",
+    "name": "Deposit",
+    "smartContract": "b0074f66.562fa",
+    "contractFunction": "deposit",
+    "senderAccount": "",
+    "readonlyFunction": false,
+    "weiTransfer": "",
+    "onlyEstimateGas": false,
+    "useEstimatedGasLimit": true,
+    "gasLimit": "",
+    "usePreviousBlocksGasPrice": true,
+    "gasPrice": "",
+    "fetchFullTransaction": true,
+    "x": 540,
+    "y": 700,
+    "wires": [
+      [
+        "1cc00657.7f139a"
+      ],
+      [
+        "df8e91ac.94ef6",
+        "a92b6f1d.4a9fd"
+      ]
+    ]
+  },
+  {
+    "id": "1cc00657.7f139a",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Transaction",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 710,
+    "y": 680,
+    "wires": []
+  },
+  {
+    "id": "df8e91ac.94ef6",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Receipt",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 720,
+    "wires": []
+  },
+  {
+    "id": "374529e8.e079d6",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 1 (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 1",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 700,
+    "wires": [
+      [
+        "f0990981.f6fc28"
+      ]
+    ]
+  },
+  {
+    "id": "494144d6.a1c5cc",
+    "type": "comment",
+    "z": "67f38e47.684ad",
+    "name": "Deposit Ether (Dynamic Config)",
+    "info": "",
+    "x": 190,
+    "y": 660,
+    "wires": []
+  },
+  {
+    "id": "62f2e9de.3bb818",
+    "type": "change",
+    "z": "67f38e47.684ad",
+    "name": "Set Wei Transfer",
+    "rules": [
+      {
+        "t": "move",
+        "p": "payload",
+        "pt": "msg",
+        "to": "weiTransfer",
+        "tot": "msg"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 350,
+    "y": 820,
+    "wires": [
+      [
+        "1574adde.550fd2"
+      ]
+    ]
+  },
+  {
+    "id": "bb87bde3.37a5a",
+    "type": "ether-conversion",
+    "z": "67f38e47.684ad",
+    "name": "Ether To Wei",
+    "fromUnit": "ether",
+    "toUnit": "wei",
+    "x": 330,
+    "y": 760,
+    "wires": [
+      [
+        "62f2e9de.3bb818"
+      ]
+    ]
+  },
+  {
+    "id": "f0990981.f6fc28",
+    "type": "change",
+    "z": "67f38e47.684ad",
+    "name": "Set 1 Ether",
+    "rules": [
+      {
+        "t": "set",
+        "p": "payload",
+        "pt": "msg",
+        "to": "1",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 330,
+    "y": 700,
+    "wires": [
+      [
+        "bb87bde3.37a5a"
+      ]
+    ]
+  },
+  {
+    "id": "549b6404.1d2f0c",
+    "type": "comment",
+    "z": "67f38e47.684ad",
+    "name": "Deposit Ether (Only Estimation)",
+    "info": "",
+    "x": 190,
+    "y": 900,
+    "wires": []
+  },
+  {
+    "id": "ebf7d7ee.e67208",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Summary",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "summary",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 560,
+    "y": 340,
+    "wires": []
+  },
+  {
+    "id": "e556b90b.6be0b8",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Summary",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "summary",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 600,
+    "y": 580,
+    "wires": []
+  },
+  {
+    "id": "a92b6f1d.4a9fd",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Summary",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "summary",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 760,
+    "wires": []
+  },
+  {
+    "id": "68950db3.d2fe54",
+    "type": "ether-conversion",
+    "z": "67f38e47.684ad",
+    "name": "Wei to Ether",
+    "fromUnit": "wei",
+    "toUnit": "ether",
+    "x": 570,
+    "y": 300,
+    "wires": [
+      [
+        "6d2e2a93.6bc544"
+      ]
+    ]
+  },
+  {
+    "id": "990e1501.f80418",
+    "type": "contract-call",
+    "z": "67f38e47.684ad",
+    "name": "Deposit (1 Ether)",
+    "smartContract": "b0074f66.562fa",
+    "contractFunction": "deposit",
+    "senderAccount": "",
+    "readonlyFunction": false,
+    "weiTransfer": "1000000000000000000",
+    "onlyEstimateGas": true,
+    "useEstimatedGasLimit": true,
+    "gasLimit": "",
+    "usePreviousBlocksGasPrice": true,
+    "gasPrice": "",
+    "fetchFullTransaction": true,
+    "x": 350,
+    "y": 940,
+    "wires": [
+      [
+        "e965adfc.b8443"
+      ],
+      [
+        "75bed40c.34eb1c",
+        "6d5573cd.5604cc"
+      ]
+    ]
+  },
+  {
+    "id": "e965adfc.b8443",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Transaction",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 570,
+    "y": 920,
+    "wires": []
+  },
+  {
+    "id": "75bed40c.34eb1c",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Receipt",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 560,
+    "y": 960,
+    "wires": []
+  },
+  {
+    "id": "e5df8cf2.23975",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 1 (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 1",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 940,
+    "wires": [
+      [
+        "990e1501.f80418"
+      ]
+    ]
+  },
+  {
+    "id": "6d5573cd.5604cc",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Summary",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "summary",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 560,
+    "y": 1000,
+    "wires": []
+  },
+  {
+    "id": "b482b349.9c8f3",
+    "type": "contract-call",
+    "z": "67f38e47.684ad",
+    "name": "Withdraw",
+    "smartContract": "b0074f66.562fa",
+    "contractFunction": "withdraw",
+    "senderAccount": "",
+    "readonlyFunction": false,
+    "weiTransfer": "",
+    "onlyEstimateGas": false,
+    "useEstimatedGasLimit": true,
+    "gasLimit": "",
+    "usePreviousBlocksGasPrice": true,
+    "gasPrice": "",
+    "fetchFullTransaction": true,
+    "x": 520,
+    "y": 1120,
+    "wires": [
+      [
+        "91ee6228.e30d2"
+      ],
+      [
+        "b299164.c8f35e8",
+        "99cb1a9a.faf228"
+      ]
+    ]
+  },
+  {
+    "id": "91ee6228.e30d2",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Tx Hash",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 680,
+    "y": 1100,
+    "wires": []
+  },
+  {
+    "id": "12ec649.82dca9b",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 1 (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 1",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 1060,
+    "wires": [
+      [
+        "3d772fde.08262"
+      ]
+    ]
+  },
+  {
+    "id": "d32d0c88.0893f",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 2  (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 2",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 1100,
+    "wires": [
+      [
+        "3d772fde.08262"
+      ]
+    ]
+  },
+  {
+    "id": "31a499c8.1ccfd6",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 3  (Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 3",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 150,
+    "y": 1140,
+    "wires": [
+      [
+        "3d772fde.08262"
+      ]
+    ]
+  },
+  {
+    "id": "2e8e2072.eb2dc",
+    "type": "inject",
+    "z": "67f38e47.684ad",
+    "name": "Account 4  (Not Owner)",
+    "props": [
+      {
+        "p": "senderAccount",
+        "v": "Account 4",
+        "vt": "str"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 160,
+    "y": 1180,
+    "wires": [
+      [
+        "3d772fde.08262"
+      ]
+    ]
+  },
+  {
+    "id": "7f2070ef.91562",
+    "type": "comment",
+    "z": "67f38e47.684ad",
+    "name": "Withdraw Ether",
     "info": "",
     "x": 140,
-    "y": 180,
+    "y": 1020,
+    "wires": []
+  },
+  {
+    "id": "3d772fde.08262",
+    "type": "change",
+    "z": "67f38e47.684ad",
+    "name": "Set Amount",
+    "rules": [
+      {
+        "t": "set",
+        "p": "payload",
+        "pt": "msg",
+        "to": "1000000000000000000",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 370,
+    "y": 1120,
+    "wires": [
+      [
+        "b482b349.9c8f3"
+      ]
+    ]
+  },
+  {
+    "id": "b299164.c8f35e8",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Receipt",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 680,
+    "y": 1140,
+    "wires": []
+  },
+  {
+    "id": "99cb1a9a.faf228",
+    "type": "debug",
+    "z": "67f38e47.684ad",
+    "name": "Summary",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "summary",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 680,
+    "y": 1180,
     "wires": []
   }
 ]

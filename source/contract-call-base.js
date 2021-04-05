@@ -31,7 +31,6 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 }
                 else {
                     result = await sendTransaction(contractCall, senderAccount, options);
-                    await updateTransactionInSummary(result.transactionHash);
                 }
 
                 triggerResultPort(result);
@@ -54,7 +53,7 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                     configNodeId = config.senderAccount;
                 }
                 else if (msg.hasOwnProperty("senderAccount")) {
-                    // Find id the config node in global context. Config node stores it there at startup.
+                    // Find id of the config node in global context. Config node stores it there at startup.
                     configNodeId = node.context().global.get(`SenderAccount${msg.senderAccount.replace(/ /g,'')}`);
                 }
                 else {
@@ -68,14 +67,26 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 throw Error(`Could not find configuration node for 'senderAccount'`);
             }
 
+            function initializeSummary(args, options) {
+                msg.summary = {
+                    function: config.contractFunction,
+                    args: args,
+                    options: options
+                };
+            }
+
             async function onlyEstimateGas(contractCall, options) {
+                options.value = determineWeiTransfer();
                 return contractCall.estimateGas(options);
             }
 
             async function sendTransaction(contractCall, senderAccount, options) {
+                options.value = determineWeiTransfer();
                 options.gas = await determineGasLimit();
                 options.gasPrice = await determineGasPrice();
-                return senderAccount.sendTransaction(contractCall, options, triggerTxPort);
+                const receipt = await senderAccount.sendTransaction(contractCall, options, triggerTxPort);
+                await updateTransactionInSummary(receipt.transactionHash);
+                return receipt;
 
                 async function determineGasLimit() {
                     if (config.useEstimatedGasLimit) {
@@ -103,52 +114,54 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                     }
                     throw Error(`If no static configuration for 'gasPrice' is provided there must be a dynamic configuration on the input message 'msg.gasPrice'`);
                 }
-            }
 
-            function initializeSummary(args, options) {
-                msg.summary = {
-                    function: config.contractFunction,
-                    args: args,
-                    options: options
-                };
-            }
-
-            function triggerTxPort(txHash) {
-                if (config.fetchFullTransaction) {
-                    fetchTransaction(txHash).then(transaction => {
-                        msg.summary.transaction = transaction;
-                        msg.payload = transaction;
+                function triggerTxPort(txHash) {
+                    if (config.fetchFullTransaction) {
+                        fetchTransaction(txHash).then(transaction => {
+                            msg.summary.transaction = transaction;
+                            msg.payload = transaction;
+                            send([msg, null]);
+                        }).catch(e => node.error(e));
+                    }
+                    else {
+                        msg.summary.txHash = txHash;
+                        msg.payload = txHash;
                         send([msg, null]);
-                    }).catch(e => node.error(e));
+                    }
                 }
-                else {
-                    msg.summary.txHash = txHash;
-                    msg.payload = txHash;
-                    send([msg, null]);
+
+                async function updateTransactionInSummary(txHash) {
+                    if (config.fetchFullTransaction) {
+                        msg.summary.transaction = await fetchTransaction(txHash);
+                    }
+                }
+
+                async function fetchTransaction(txHash) {
+                    const web3 = await smartContract.ethereumClient.getWeb3();
+                    return await web3.eth.getTransaction(txHash);
                 }
             }
 
-            async function fetchTransaction(txHash) {
-                const web3 = await smartContract.ethereumClient.getWeb3();
-                return await web3.eth.getTransaction(txHash);
-            }
-
-            async function updateTransactionInSummary(txHash) {
-                if (config.fetchFullTransaction) {
-                    msg.summary.transaction = await fetchTransaction(txHash);
+            function determineWeiTransfer() {
+                if (config.weiTransfer) {
+                    return config.weiTransfer;
                 }
+                else if (msg.hasOwnProperty("weiTransfer")) {
+                    return msg.weiTransfer;
+                }
+                return undefined;
             }
 
             function triggerResultPort(result) {
-                const resultJson = classInstanceToJson(result);
+                const resultJson = classInstanceToJson();
                 msg.summary.result = resultJson;
                 msg.payload = resultJson;
                 send([null, msg]);
-            }
 
-            function classInstanceToJson(result) {
-                // Object.assign(...) is because Node-RED debug node does not display class instances properly. Thus convert to a simple json object.
-                return typeof result === "object" ? Object.assign({}, result) : result;
+                function classInstanceToJson() {
+                    // Object.assign(...) is because Node-RED debug node does not display class instances properly. Thus convert to a simple json object.
+                    return typeof result === "object" ? Object.assign({}, result) : result;
+                }
             }
         }
     }
