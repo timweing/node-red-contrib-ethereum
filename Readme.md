@@ -63,7 +63,7 @@ truffle migrate
 - In Node-RED editor go to the 'Manage palette' menu 
 - Install the package: node-red-contrib-viseo-ethjs
 
-### Install other packages
+#### Install other packages
 - Install: node-red-contrib-binary
 - Install: node-red-contrib-https
 
