@@ -8,7 +8,7 @@
             contractFunction: { value: undefined, required: true },
             senderAccount: { value: "", validate: value => true, type: "sender-account" },
             readonlyFunction: { value: false, required: true },
-            weiTransfer: { value: undefined, required: false },
+            etherTransfer: { value: undefined, required: false },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined},
@@ -126,10 +126,10 @@
     </div>
     <div id="transaction-rows">
         <div class="form-row">
-            <label for="node-input-weiTransfer"><i class="fa fa-database"></i> Transfer</label>
-            <input type="text" id="node-input-weiTransfer" placeholder="0"> <span class="text-info">Wei</span>
+            <label for="node-input-etherTransfer"><i class="fa fa-database"></i> Transfer</label>
+            <input type="text" id="node-input-etherTransfer" placeholder="0"> <span class="text-info">Wei</span>
             <div class="input-info">enter amount for 'payable' function</div>
-            <div class="input-info">for dynamic config leave empty and set msg.weiTransfer</div>
+            <div class="input-info">for dynamic config leave empty and set msg.etherTransfer</div>
         </div>
         <div class="form-row">
             <label for="node-input-onlyEstimateGas"><i class="fa fa-tint"></i> Gas</label>
@@ -178,7 +178,7 @@
         <dt>Read-only <span class="property-type">boolean</span></dt>
         <dd>indicates whether the function is read-only or state changing.</dd>
         <dt>Transfer <span class="property-type">string</span></dt>
-        <dd>the amount of wei to send to the smart contract with the function call.</dd>
+        <dd>the amount of ether to send to the smart contract with the function call.</dd>
         <dt>Gas <span class="property-type">boolean</span></dt>
         <dd>indicates whether to execute the function call or only to estimate it's gas cost.</dd>
         <dt>Gas Limit <span class="property-type">string</span></dt>
@@ -195,8 +195,8 @@
         <dd>the argument(s) of the function call.</dd>
         <dt class="optional">senderAccount <span class="property-type">string</span></dt>
         <dd>(optional) the ethereum account to make the function call from.</dd>
-        <dt class="optional">weiTransfer <span class="property-type">string | number</span></dt>
-        <dd>(optional) the amount of wei to send to the smart contract with the function call.</dd>
+        <dt class="optional">etherTransfer <span class="property-type">string | number</span></dt>
+        <dd>(optional) the amount of ether to send to the smart contract with the function call.</dd>
         <dt class="optional">gasLimit <span class="property-type">string | number</span></dt>
         <dd>(optional) the maximum amount of gas willing to pay for the function call.</dd>
         <dt class="optional">gasPrice <span class="property-type">string | number</span></dt>
@@ -241,7 +241,7 @@
         Mode 2 calls a smart contract function that changes the state on the blockchain. These function calls require
         to send a transaction from an ethereum account and cost a certain amount of gas. Mode 2 is selected by leaving
         the <code>Readonly</code> and <code>Gas</code> checkboxes unchecked. The gas cost of the transaction will be
-        paid by the configured <code>Sender</code> account. The same goes for any Wei <code>Transfer</code> during a
+        paid by the configured <code>Sender</code> account. The same goes for any Ether <code>Transfer</code> during a
         'payable' function call, the specified amount will be sent from the <code>Sender</code> to the contract account.
         This mode also allows to set the <code>Gas Limit</code> and the <code>Gas Price</code> for the transaction.
         The <code>Gas Limit</code> can be set manually or an estimate can be used, by checking the <code>Gas Limit</code>

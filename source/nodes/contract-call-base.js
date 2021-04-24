@@ -76,12 +76,12 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
             }
 
             async function onlyEstimateGas(contractCall, options) {
-                options.value = determineWeiTransfer();
+                options.value = determineEtherTransfer();
                 return contractCall.estimateGas(options);
             }
 
             async function sendTransaction(contractCall, senderAccount, options) {
-                options.value = determineWeiTransfer();
+                options.value = determineEtherTransfer();
                 options.gas = await determineGasLimit();
                 options.gasPrice = await determineGasPrice();
                 const receipt = await senderAccount.sendTransaction(contractCall, options, triggerTxPort);
@@ -142,12 +142,13 @@ module.exports = function(RED, prepareArgs, isReadonlyCall) {
                 }
             }
 
-            function determineWeiTransfer() {
-                if (config.weiTransfer) {
-                    return config.weiTransfer;
+            // Todo convert from selected unit to wei
+            function determineEtherTransfer() {
+                if (config.etherTransfer) {
+                    return config.etherTransfer;
                 }
-                else if (msg.hasOwnProperty("weiTransfer")) {
-                    return msg.weiTransfer;
+                else if (msg.hasOwnProperty("etherTransfer")) { // Todo adapt test flows properties
+                    return msg.etherTransfer;
                 }
                 return undefined;
             }
