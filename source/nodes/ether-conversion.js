@@ -1,4 +1,4 @@
-const Web3 = require("web3");
+const Conversion = require("../modules/unit-conversion");
 
 module.exports = function(RED) {
     RED.nodes.registerType("ether-conversion", EtherConversion);
@@ -11,9 +11,7 @@ module.exports = function(RED) {
 
         function convert(msg, send, done) {
             try {
-                const web3 = new Web3();
-                const wei = web3.utils.toWei(web3.utils.toBN(msg.payload), config.fromUnit);
-                msg.payload = web3.utils.fromWei(wei, config.toUnit).toString();
+                msg.payload = Conversion.convertFromTo(msg.payload, config.fromUnit, config.toUnit);
                 send(msg);
                 done();
             } catch (err) {
