@@ -9,6 +9,7 @@
             senderAccount: { value: "", validate: value => true, type: "sender-account" },
             readonlyFunction: { value: false, required: true },
             etherTransfer: { value: undefined, required: false },
+            fromUnit: { value: "wei", required: true },
             onlyEstimateGas: { value: false, required: true },
             useEstimatedGasLimit: { value: true, required: true },
             gasLimit: { value: undefined},
@@ -127,7 +128,12 @@
     <div id="transaction-rows">
         <div class="form-row">
             <label for="node-input-etherTransfer"><i class="fa fa-database"></i> Transfer</label>
-            <input type="text" id="node-input-etherTransfer" placeholder="0"> <span class="text-info">Wei</span>
+            <input type="text" id="node-input-etherTransfer" placeholder="0" style="width: 55%">
+            <select id="node-input-fromUnit" style="width: 15%">
+                <option value="wei">Wei</option>
+                <option value="gwei">Gwei</option>
+                <option value="ether">Ether</option>
+            </select>
             <div class="input-info">enter amount for 'payable' function</div>
             <div class="input-info">for dynamic config leave empty and set msg.etherTransfer</div>
         </div>

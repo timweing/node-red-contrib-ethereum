@@ -4,8 +4,8 @@
         color: '#D8BFD8',
         defaults: {
             name: { value: undefined },
-            fromUnit: { value: "ether", required: true },
-            toUnit: { value: "ether", required: true }
+            fromUnit: { value: "wei", required: true },
+            toUnit: { value: "wei", required: true }
         },
         inputs: 1,
         outputs: 1,
@@ -25,17 +25,17 @@
     <div id="fromUnit-row" class="form-row">
         <label for="node-input-fromUnit"><i class="fa fa-sign-in"></i> From</label>
         <select id="node-input-fromUnit" style="width: 70%">
-            <option value="ether">Ether</option>
-            <option value="gwei">Gwei</option>
             <option value="wei">Wei</option>
+            <option value="gwei">Gwei</option>
+            <option value="ether">Ether</option>
         </select>
     </div>
     <div id="toUnit-row" class="form-row">
         <label for="node-input-toUnit"><i class="fa fa-sign-out"></i> To</label>
         <select id="node-input-toUnit" style="width: 70%">
-            <option value="ether">Ether</option>
-            <option value="gwei">Gwei</option>
             <option value="wei">Wei</option>
+            <option value="gwei">Gwei</option>
+            <option value="ether">Ether</option>
         </select>
     </div>
 </script>
