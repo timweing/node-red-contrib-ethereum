@@ -1,4 +1,4 @@
-const TxManager = require("./transaction-manager");
+const TxManager = require("../modules/transaction-manager");
 
 module.exports = function(RED) {
     RED.nodes.registerType("sender-account", SenderAccount,{ credentials: { privateKey: { type: "password" } } });

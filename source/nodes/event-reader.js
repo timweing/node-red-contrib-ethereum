@@ -1,5 +1,5 @@
 const EventReaderBase = require("./event-reader-base");
-const ParseInput = require("./parse-input");
+const ParseInput = require("../modules/parse-input");
 
 module.exports = function(RED) {
     const eventReaderBase = new EventReaderBase(RED, getFilter);

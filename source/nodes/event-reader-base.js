@@ -1,4 +1,4 @@
-const BlockRange = require("./block-range");
+const BlockRange = require("../modules/block-range");
 
 module.exports = function(RED, getFilter) {
     this.createNode = CreateNode;

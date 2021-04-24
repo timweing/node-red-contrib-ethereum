@@ -1,5 +1,5 @@
-const BlockRange = require("./block-range");
-const AddressFilter = require("./address-filter");
+const BlockRange = require("../modules/block-range");
+const AddressFilter = require("../modules/address-filter");
 
 module.exports = function(RED) {
     RED.nodes.registerType("transaction-reader", TransactionReader);

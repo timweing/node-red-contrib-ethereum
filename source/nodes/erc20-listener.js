@@ -1,6 +1,6 @@
 const EventListenerBase = require("./event-listener-base");
-const ParseInput = require("./parse-input");
-const Erc20EventFilter = require("./erc20-event-filter");
+const ParseInput = require("../modules/parse-input");
+const Erc20EventFilter = require("../modules/erc20-event-filter");
 
 module.exports = function(RED) {
     const eventListenerBase = new EventListenerBase(RED, getFilter);

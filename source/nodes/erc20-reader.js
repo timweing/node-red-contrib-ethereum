@@ -1,6 +1,6 @@
 const EventReaderBase = require("./event-reader-base");
-const AddressFilter = require("./address-filter");
-const Erc20EventFilter = require("./erc20-event-filter");
+const AddressFilter = require("../modules/address-filter");
+const Erc20EventFilter = require("../modules/erc20-event-filter");
 
 module.exports = function(RED) {
     const eventReaderBase = new EventReaderBase(RED, getFilter);

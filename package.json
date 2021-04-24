@@ -25,19 +25,19 @@
   },
   "node-red": {
     "nodes": {
-      "contract-call": "source/contract-call.js",
-      "event-listener": "source/event-listener.js",
-      "event-reader": "source/event-reader.js",
-      "erc20-call": "source/erc20-call.js",
-      "erc20-listener": "source/erc20-listener.js",
-      "erc20-reader": "source/erc20-reader.js",
-      "transaction-reader": "source/transaction-reader.js",
-      "gas-price": "source/gas-price.js",
-      "ether-conversion": "source/ether-conversion.js",
-      "address-gen": "source/address-gen.js",
-      "ethereum-client": "source/ethereum-client.js",
-      "smart-contract": "source/smart-contract.js",
-      "sender-account": "source/sender-account.js"
+      "contract-call": "source/nodes/contract-call.js",
+      "event-listener": "source/nodes/event-listener.js",
+      "event-reader": "source/nodes/event-reader.js",
+      "erc20-call": "source/nodes/erc20-call.js",
+      "erc20-listener": "source/nodes/erc20-listener.js",
+      "erc20-reader": "source/nodes/erc20-reader.js",
+      "transaction-reader": "source/nodes/transaction-reader.js",
+      "gas-price": "source/nodes/gas-price.js",
+      "ether-conversion": "source/nodes/ether-conversion.js",
+      "address-gen": "source/nodes/address-gen.js",
+      "ethereum-client": "source/nodes/ethereum-client.js",
+      "smart-contract": "source/nodes/smart-contract.js",
+      "sender-account": "source/nodes/sender-account.js"
     }
   }
 }
